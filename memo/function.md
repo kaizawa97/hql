@@ -69,6 +69,27 @@
           /api/v1/posts/:post_id/likes/:like_id
 
 ### DB Structure:
-- user: id int autoincrement /name/age/email/auth_flag/company
-- posts: id/user_id/title/body/created_at/updated_at/photo/movie/like_count/date
-- comments: id/user_id/post_id/body/created_at/updated_at/reply/date
+- user: user_id bigint autoincrement 
+       name varchar 30文字まで
+       age int 150歳まで
+       email varchar [^\s]+@[^\s]+
+       auth_flag bool true false
+       company varchar 100文字まで
+
+- posts: id bigint autoincrement
+       user_id bigint autoincrement
+       title text 
+       body text
+       created_at timestamp
+       updated_at timestamp
+       photo varchar
+       movie varchar
+       like_count int
+       
+- comments: id bigint autoincrement
+            user_id bigint autoincrement
+            post_id bigint autoincrement
+            body text
+            created_at timestamp
+            updated_at timestamp
+            reply text
