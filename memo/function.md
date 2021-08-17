@@ -69,7 +69,7 @@
           /api/v1/posts/:post_id/likes/:like_id
 
 ### DB Structure:
-- user: user_id bigint autoincrement 
+- Users: user_id bigint autoincrement 
        name varchar 30文字まで
        age int 150歳まで
        email varchar [^\s]+@[^\s]+
