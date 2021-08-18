@@ -39,6 +39,8 @@
        /api/v1/posts/:post_id/likes/:like_id/liking_users
        /api/v1/search/:search_word
        /api/v1/profiles
+       /api/vi/images/:image_id
+       /api/vi/movies/:movie_id
       ~~/api/v1/profiles/:id/messages~~
       ~~/api/v1/profiles/:id/messages/:message_id~~
       + oauth系のAPIを叩く
@@ -49,6 +51,8 @@
         /api/v1/users/:name/posts/:post_id/likes
         /api/v1/users/:name/posts/:post_id/likes/:like_id
         /api/v1/users/:name/profiles
+        /api/vi/images
+        /api/v1/movies
        ~~/api/v1/users/:name/profiles/:id/messages~~
        ~~/api/v1/users/:name/profiles/:id/messages/:message_id~~
        ~~/api/v1/users/:name/profiles/:id/messages/:message_id/replies~~

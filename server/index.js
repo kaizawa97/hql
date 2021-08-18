@@ -1,12 +1,15 @@
 'use strict';
+
 const express = require('express');
 const helmet = require('helmet');
-require('dotenv').config();
-
+const logger = require('morgan');
 const app = express();
 
-const port = process.env.PORT;
+require('dotenv').config();
+const port = process.env.NODE_PORT;
+
 app.use(helmet());
+app.use(logger('dev'));
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
