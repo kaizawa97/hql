@@ -71,25 +71,20 @@
 ### DB Structure:
 - Users: user_id bigint autoincrement 
        name varchar 30文字まで
-       age int 150歳まで
+       age int 130歳まで
        email varchar [^\s]+@[^\s]+
        auth_flag bool true false
        company varchar 100文字まで
+       https://gist.github.com/JesusMurF/9d206738aa54131a6e7ac88ab2d9084e sequelize -> password
 
 - posts: id bigint autoincrement
-       user_id bigint autoincrement
        title text 
        body text
-       created_at timestamp
-       updated_at timestamp
        photo varchar
        movie varchar
        like_count int
        
 - comments: id bigint autoincrement
-            user_id bigint autoincrement
-            post_id bigint autoincrement
+            like_count int
             body text
-            created_at timestamp
-            updated_at timestamp
             reply text
