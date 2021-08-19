@@ -1,10 +1,9 @@
 'use strict';
 const {
-  Model, HostNotFoundError
+  Model
 } = require('sequelize');
-const { not } = require('sequelize/types/lib/operators');
 module.exports = (sequelize, DataTypes) => {
-  class Users extends Model {
+  class users extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -14,8 +13,18 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   };
-  Users.init({
-    name: {
+  users.init({
+    first_name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        notNull: {
+          msg: 'The name cannot be empty'
+        }
+      }
+    },
+    last_name: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
@@ -26,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     age: {
-      type: DataTypes.INTEGER.UNSIZED,
+      type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
         notEmpty: true,
@@ -44,19 +53,22 @@ module.exports = (sequelize, DataTypes) => {
         isEmail: true
       }
     },
-    auth_flag: {
-       type: DataTypes.BOOLEAN,
-       allowNull: false,
-       defaultValue: false
+    password: {
+      type: DataTypes.STRING,
     },
     company: {
-       type: DataTypes.STRING,
-      //  is: ["^[a-z]+$",'i']
-    }
+      type: DataTypes.STRING,
+     //  is: ["^[a-z]+$",'i']
+   },
+    auth_flag: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+   }
   }, {
     sequelize,
-    modelName: 'Users',
+    modelName: 'users',
     underscored: true,
   });
-  return Users;
+  return users;
 };

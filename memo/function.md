@@ -45,7 +45,8 @@
       ~~/api/v1/profiles/:id/messages/:message_id~~
       + oauth系のAPIを叩く
        
-- POST: /api/v1/users/:name/posts
+- POST: /api/v1/users/
+        /api/v1/users/:name/posts
         /api/v1/users/:name/posts/:post_id/comments
         /api/v1/users/:name/posts/:post_id/comments/:comment_id/replies
         /api/v1/users/:name/posts/:post_id/likes
@@ -71,7 +72,56 @@
           /api/v1/posts/:post_id/comments/:comment_id
           /api/v1/posts/:post_id/comments/:comment_id/replies/:reply_id
           /api/v1/posts/:post_id/likes/:like_id
+          
+### API structure for function:
+// profile router
+router.get('/profile/:name(\\w+)', contoller.getProfile);
+router.get('/profile/:name(\\w+)/posts', contoller.getAllPostsByName);
+router.get('/profile/:name(\\w+)/posts/:id(\\d+)', contoller.getPostById);
+router.get('/profile/:name(\\w+)/posts/:id(\\d+)/comments', contoller.getAllCommentsByPostId);
+router.get('/profile/:name(\\w+)/posts/:id(\\d+)/comments/:id(\\d+)', contoller.getCommentById);
+router.put('/profile/:name(\\w+)', contoller.updateProfile);
+router.delete('/profile/:name(\\w+)', contoller.deleteProfile);
 
+// user auth router
+router.post('/auth/login', contoller.login);
+router.post('/auth/register', contoller.register);
+
+// users router
+router.get('/users', contoller.getAllUsers);
+router.get('/users/:name(\\w+)', contoller.getUserByName);
+
+// search router
+router.get('/search:search_word(\\w+)', contoller.search);
+
+// posts router
+router.get('/posts', contoller.getAllPosts);
+router.get('/posts/:id(\\d+)', contoller.getPostById);
+router.get('/posts/:id(\\d+)/comments', contoller.getAllCommentsByPostId);
+router.get('/posts/:id(\\d+)/comments/:commentId(\\d+)', contoller.getCommentsByPostId);
+router.get('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies', contoller.getAllRepliesByCommentId);
+router.get('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies/:replyId(\\d+)', contoller.getReplyByCommentId);
+router.get('/posts/:id(\\d+)/likes',contoller.getAllLikesByPostId);
+router.get('/posts/:id(\\d+)/likescount',contoller.getLikesCountByPostId);
+router.post('/posts', contoller.createPost);
+router.post('/posts/:id(\\d+)/comments', contoller.createComment);
+router.post('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies', contoller.createReply);
+router.post('/posts/:id(\\d+)/likes',contoller.createLike);
+router.put('/posts/:id(\\d+)', contoller.updatePost);
+router.delete('/posts/:id(\\d+)', contoller.deletePost);
+router.delete('/posts/:id(\\d+)/comments/:commentId(\\d+)', contoller.deleteComment);
+router.delete('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies/:replyId(\\d+)', contoller.deleteReply);
+router.delete('/posts/:id(\\d+)/likes/:likeId(\\d+)',contoller.deleteLike);
+
+// images and movies router
+router.get('/posts/:id(\\d+)/images:id(\\d+)', contoller.getImageById);
+router.get('/posts/:id(\\d+)/movies:id(\\d+)', contoller.getMovieById);
+router.post('posts/images', contoller.createImage);
+router.post('posts/movies', contoller.createMovie);
+router.put('posts/images/:id(\\d+)', contoller.updateImage);
+router.put('posts/movies/:id(\\d+)', contoller.updateMovie);
+router.delete('posts/images/:id(\\d+)', contoller.deleteImage);
+router.delete('posts/movies/:id(\\d+)', contoller.deleteMovie);
 ### DB Structure:
 - Users: user_id bigint autoincrement 
        name varchar 30文字まで

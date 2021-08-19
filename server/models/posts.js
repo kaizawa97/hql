@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Posts extends Model {
+  class posts extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,7 +13,12 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   };
-  Posts.init({
+  posts.init({
+    id: {
+      type: DataTypes.BIGINT,
+      primaryKey: true,
+      autoIncrement: true
+    },
     title: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -22,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
         msg: 'The title cannot be empty'
       }
     },
-    body: { 
+    body: {
       type: DataTypes.TEXT,
       allowNull: false,
       validate: {
@@ -32,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     photo: {
       type: DataTypes.STRING,
-      allowNull: true, 
+      allowNull: true,
       validate: {
         isUrl: true,
         msg: 'The photo url is valid'
@@ -46,15 +51,15 @@ module.exports = (sequelize, DataTypes) => {
         msg: 'The movie url is valid'
       }
     },
-    like_count: { 
+    like_count: {
       type: DataTypes.INTEGER,
       defaultValue: 0,
       allowNull: false
     }
   }, {
     sequelize,
-    modelName: 'Posts',
+    modelName: 'posts',
     underscored: true,
   });
-  return Posts;
+  return posts;
 };
