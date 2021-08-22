@@ -24,7 +24,6 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: true,
-        msg: 'The title cannot be empty'
       }
     },
     body: {
@@ -32,7 +31,6 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: true,
-        msg: 'The body cannot be empty'
       }
     },
     photo: {

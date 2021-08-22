@@ -2,9 +2,6 @@ const models = require('../models');
 const Posts = models.posts;
 const Op = models.Op;
 
-console.log(models);
-console.log(Posts);
-
 exports.getAllPosts = (req, res) => {
   const title = req.query.title;
   var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
@@ -55,19 +52,20 @@ exports.getLikesCountByPostId = (req, res) => {
 }
 
 exports.createPost = (req, res) => {
-  if (!req.body.title) {
+  if (!req.body.title || !req.body.content) {
     res.status(400).send({
-      message: "Content can not be empty!"
+      message: "Contents can not be empty!"
     });
     return;
   }
 
   const post = {
     title: req.body.title,
-    content: req.body.content,
+    body: req.body.content,
     image: req.body.image,
     movie: req.body.movie
   };
+  // mysql上のカラムと連動している
 
   Posts.create(post)
     .then(data => {
