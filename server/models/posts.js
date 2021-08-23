@@ -33,20 +33,18 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true,
       }
     },
-    photo: {
+    image: {
       type: DataTypes.STRING,
       allowNull: true,
       validate: {
-        isUrl: true,
-        msg: 'The photo url is valid'
+        isUrl: true
       }
     },
     movie: {
       type: DataTypes.STRING,
       allowNull: true,
       validate: {
-        isUrl: true,
-        msg: 'The movie url is valid'
+        isUrl: true
       }
     },
     like_count: {
@@ -54,6 +52,10 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 0,
       allowNull: false
     }
+    // deletedAt: {
+    //   type: DataTypes.DATE,
+    //   allowNull: true
+    // }
   }, {
     sequelize,
     modelName: 'posts',

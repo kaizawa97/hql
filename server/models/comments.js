@@ -14,13 +14,20 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   comments.init({
-    body: DataTypes.TEXT,
+    body: { 
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
     reply: DataTypes.TEXT,
     like_count: {
       allowNull: false,
       defaultValue: 0,
       type: DataTypes.INTEGER
     }
+    // deletedAt: {
+    //   type: DataTypes.DATE,
+    //   allowNull: true
+    // },
   }, {
     sequelize,
     modelName: 'comments',

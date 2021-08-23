@@ -2,56 +2,61 @@
 
 const express = require('express');
 const router = express.Router();
-const posts_contoller = require('../contollers/posts_contoller.js');
-const profile_contoller = require('../contollers/profile_contoller.js');
+const posts_controller = require('../controllers/posts_controller.js');
+const profile_controller = require('../controllers/profile_controller.js');
+const comment_controller = require('../controllers/comments_controller.js');
 
 // // profile router
-// router.get('/profile/:name(\\w+)', profile_contoller.getProfile);
-// router.get('/profile/:name(\\w+)/posts', profile_contoller.getAllPostsByName);
-// router.get('/profile/:name(\\w+)/posts/:id(\\d+)', profile_contoller.getPostById);
-// router.get('/profile/:name(\\w+)/posts/:id(\\d+)/comments', profile_contoller.getAllCommentsByPostId);
-// router.get('/profile/:name(\\w+)/posts/:id(\\d+)/comments/:id(\\d+)', profile_contoller.getCommentById);
-// router.put('/profile/:name(\\w+)', profile_contoller.updateProfile);
-// router.delete('/profile/:name(\\w+)', profile_contoller.deleteProfile);
+// router.get('/profile/:name(\\w+)', profile_controller.getProfile);
+// router.get('/profile/:name(\\w+)/posts', profile_controller.getAllPostsByName);
+// router.get('/profile/:name(\\w+)/posts/:id(\\d+)', profile_controller.getPostById);
+// router.get('/profile/:name(\\w+)/posts/:id(\\d+)/comments', profile_controller.getAllCommentsByPostId);
+// router.get('/profile/:name(\\w+)/posts/:id(\\d+)/comments/:id(\\d+)', profile_controller.getCommentById);
+// router.put('/profile/:name(\\w+)', profile_controller.updateProfile);
+// router.delete('/profile/:name(\\w+)', profile_controller.deleteProfile);
 
 // // user auth router
-// router.post('/auth/login', contoller.login);
-// router.post('/auth/register', contoller.register);
+// router.post('/auth/login', controller.login);
+// router.post('/auth/register', controller.register);
 
 // // users router
-// router.get('/users', contoller.getAllUsers);
-// router.get('/users/:name(\\w+)', contoller.getUserByName);
+// router.get('/users', controller.getAllUsers);
+// router.get('/users/:name(\\w+)', controller.getUserByName);
 
 // // search router
-// router.get('/search:search_word(\\w+)', contoller.search);
+// router.get('/search:search_word(\\w+)', controller.search);
 
 // posts router
-router.get('/posts', posts_contoller.getAllPosts);
-router.get('/posts/:id(\\d+)', posts_contoller.getPostById);
-// router.get('/posts/:id(\\d+)/comments', posts_contoller.getAllCommentsByPostId);
-// router.get('/posts/:id(\\d+)/comments/:commentId(\\d+)', posts_contoller.getCommentByPostId);
-// router.get('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies', posts_contoller.getAllRepliesByCommentId);
-// router.get('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies/:replyId(\\d+)', posts_contoller.getReplyByCommentId);
-// router.get('/posts/:id(\\d+)/likes',posts_contoller.getAllLikesByPostId);
-// router.get('/posts/:id(\\d+)/likescount',posts_contoller.getLikesCountByPostId);
-router.post('/posts', posts_contoller.createPost);
-// router.post('/posts/:id(\\d+)/comments', posts_contoller.createComment);
-// router.post('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies', posts_contoller.createReply);
-// router.post('/posts/:id(\\d+)/likes',posts_contoller.createLike);
-router.put('/posts/:id(\\d+)', posts_contoller.updatePost);
-router.delete('/posts/:id(\\d+)', posts_contoller.deletePost);
-// router.delete('/posts/:id(\\d+)/comments/:commentId(\\d+)', posts_contoller.deleteComment);
-// router.delete('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies/:replyId(\\d+)', posts_contoller.deleteReply);
-// router.delete('/posts/:id(\\d+)/likes/:likeId(\\d+)',posts_contoller.deleteLike);
+router.get('/posts', posts_controller.getAllPosts);
+router.get('/posts/:id(\\d+)', posts_controller.getPostById);
+// router.get('/posts/:id(\\d+)/likes',posts_controller.getAllLikesByPostId);
+// router.get('/posts/:id(\\d+)/likescount',posts_controller.getLikesCountByPostId);
+router.post('/posts', posts_controller.createPost);
+// router.post('/posts/:id(\\d+)/likes',posts_controller.createLike);
+router.put('/posts/:id(\\d+)', posts_controller.updatePost);
+router.delete('/posts/:id(\\d+)', posts_controller.deletePost);
+
+// router.delete('/posts/:id(\\d+)/likes/:likeId(\\d+)',posts_controller.deleteLike);
+
+// comments router
+router.get('/posts/:id(\\d+)/comments', comment_controller.getAllCommentsByPostId);
+router.get('/posts/:id(\\d+)/comments/:commentId(\\d+)', comment_controller.getCommentByPostId);
+router.get('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies', comment_controller.getAllRepliesByCommentId);
+router.get('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies/:replyId(\\d+)', comment_controller.getReplyByCommentId);
+router.post('/posts/:id(\\d+)/comments', comment_controller.createComment);
+router.post('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies', comment_controller.createReply);
+router.delete('/posts/:id(\\d+)/comments/:commentId(\\d+)', comment_controller.deleteComment);
+router.delete('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies/:replyId(\\d+)', comment_controller.deleteReply);
+
 
 // // images and movies router
-// router.get('/posts/:id(\\d+)/images:id(\\d+)', contoller.getImageById);
-// router.get('/posts/:id(\\d+)/movies:id(\\d+)', contoller.getMovieById);
-// router.post('posts/images', contoller.createImage);
-// router.post('posts/movies', contoller.createMovie);
-// router.put('posts/images/:id(\\d+)', contoller.updateImage);
-// router.put('posts/movies/:id(\\d+)', contoller.updateMovie);
-// router.delete('posts/images/:id(\\d+)', contoller.deleteImage);
-// router.delete('posts/movies/:id(\\d+)', contoller.deleteMovie);
+// router.get('/posts/:id(\\d+)/images:id(\\d+)', controller.getImageById);
+// router.get('/posts/:id(\\d+)/movies:id(\\d+)', controller.getMovieById);
+// router.post('posts/images', controller.createImage);
+// router.post('posts/movies', controller.createMovie);
+// router.put('posts/images/:id(\\d+)', controller.updateImage);
+// router.put('posts/movies/:id(\\d+)', controller.updateMovie);
+// router.delete('posts/images/:id(\\d+)', controller.deleteImage);
+// router.delete('posts/movies/:id(\\d+)', controller.deleteMovie);
 
 module.exports = router;

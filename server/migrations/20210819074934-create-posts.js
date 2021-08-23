@@ -16,7 +16,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.TEXT
       },
-      photo: {
+      image: {
         type: Sequelize.STRING
       },
       movie: {
@@ -27,6 +27,9 @@ module.exports = {
         defaultValue: 0,
         type: Sequelize.BIGINT
       },
+      // deletedAt: {
+      //   type: Sequelize.DATE
+      // },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE

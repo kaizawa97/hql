@@ -30,20 +30,7 @@ exports.getPostById = (req, res) => {
         message: "Error retrieving post with id=" + id
       });
     });
-}
-
-exports.getAllCommentsByPostId = (req, res) => {
-
-}
-
-exports.getCommentByPostId = (req, res) => {
-}
-
-exports.getAllRepliesByCommentId = (req, res) => {
-}
-
-exports.getReplyByCommentId = (req, res) => {
-}
+};
 
 exports.getAllLikesByPostId = (req, res) => {
 }
@@ -52,7 +39,7 @@ exports.getLikesCountByPostId = (req, res) => {
 }
 
 exports.createPost = (req, res) => {
-  if (!req.body.title || !req.body.content) {
+  if (!req.body.title || !req.body.text) {
     res.status(400).send({
       message: "Contents can not be empty!"
     });
@@ -61,7 +48,7 @@ exports.createPost = (req, res) => {
 
   const post = {
     title: req.body.title,
-    body: req.body.content,
+    body: req.body.text,
     image: req.body.image,
     movie: req.body.movie
   };
@@ -77,21 +64,21 @@ exports.createPost = (req, res) => {
           err.message || "Some error occurred while creating the Post."
       });
     });
-}
-
-exports.createComment = (req, res) => {
-}
-
-exports.createReply = (req, res) => {
-}
+};
 
 exports.createLike = (req, res) => {
-}
+};
 
 exports.updatePost = (req, res) => {
   const id = req.params.id;
+  const post = {
+    title: req.body.title,
+    body: req.body.text,
+    image: req.body.image,
+    movie: req.body.movie
+  }
 
-  posts.update(req.body, {
+  Posts.update(post, {
     where: { id: id }
   })
     .then(num => {
@@ -115,7 +102,7 @@ exports.updatePost = (req, res) => {
 exports.deletePost = (req, res) => {
   const id = req.params.id;
 
-  posts.destroy({
+  Posts.destroy({
     where: { id: id }
   })
     .then(num => {
@@ -135,11 +122,6 @@ exports.deletePost = (req, res) => {
       });
     });
 };
-exports.deleteComment = (req, res) => {
-}
-
-exports.deleteReply = (req, res) => {
-}
 
 exports.deleteLike = (req, res) => {
 }
