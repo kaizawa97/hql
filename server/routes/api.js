@@ -4,9 +4,13 @@ const express = require('express');
 const router = express.Router();
 const posts_controller = require('../controllers/posts_controller.js');
 const profile_controller = require('../controllers/profile_controller.js');
-const comment_controller = require('../controllers/comments_controller.js');
+const comments_controller = require('../controllers/comments_controller.js');
+const auth_controller = require('../controllers/auth_controller.js');
 
-// // profile router
+// home router
+// router.get('/', posts_controller.index);
+
+// profile router
 // router.get('/profile/:name(\\w+)', profile_controller.getProfile);
 // router.get('/profile/:name(\\w+)/posts', profile_controller.getAllPostsByName);
 // router.get('/profile/:name(\\w+)/posts/:id(\\d+)', profile_controller.getPostById);
@@ -15,9 +19,14 @@ const comment_controller = require('../controllers/comments_controller.js');
 // router.put('/profile/:name(\\w+)', profile_controller.updateProfile);
 // router.delete('/profile/:name(\\w+)', profile_controller.deleteProfile);
 
-// // user auth router
-// router.post('/auth/login', controller.login);
-// router.post('/auth/register', controller.register);
+// user auth router
+// router.post('/auth/login', auth_controller.login);
+// router.get('/auth/logout', auth_controller.logout);
+// router.post('/auth/register', auth_controller.register);
+
+// OAuth2 router
+// router.get('/auth/google',auth_controller.google);
+// router.get('/auth/google/callback',auth_controller.googleCallback);
 
 // // users router
 // router.get('/users', controller.getAllUsers);
@@ -35,18 +44,17 @@ router.post('/posts', posts_controller.createPost);
 // router.post('/posts/:id(\\d+)/likes',posts_controller.createLike);
 router.put('/posts/:id(\\d+)', posts_controller.updatePost);
 router.delete('/posts/:id(\\d+)', posts_controller.deletePost);
-
 // router.delete('/posts/:id(\\d+)/likes/:likeId(\\d+)',posts_controller.deleteLike);
 
 // comments router
-router.get('/posts/:id(\\d+)/comments', comment_controller.getAllCommentsByPostId);
-router.get('/posts/:id(\\d+)/comments/:commentId(\\d+)', comment_controller.getCommentByPostId);
-router.get('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies', comment_controller.getAllRepliesByCommentId);
-router.get('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies/:replyId(\\d+)', comment_controller.getReplyByCommentId);
-router.post('/posts/:id(\\d+)/comments', comment_controller.createComment);
-router.post('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies', comment_controller.createReply);
-router.delete('/posts/:id(\\d+)/comments/:commentId(\\d+)', comment_controller.deleteComment);
-router.delete('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies/:replyId(\\d+)', comment_controller.deleteReply);
+router.get('/posts/:id(\\d+)/comments', comments_controller.getAllCommentsByPostId);
+router.get('/posts/:id(\\d+)/comments/:commentId(\\d+)', comments_controller.getCommentByPostId);
+router.get('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies', comments_controller.getAllRepliesByCommentId);
+router.get('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies/:replyId(\\d+)', comments_controller.getReplyByCommentId);
+router.post('/posts/:id(\\d+)/comments', comments_controller.createComment);
+router.post('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies', comments_controller.createReply);
+router.delete('/posts/:id(\\d+)/comments/:commentId(\\d+)', comments_controller.deleteComment);
+router.delete('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies/:replyId(\\d+)', comments_controller.deleteReply);
 
 
 // // images and movies router

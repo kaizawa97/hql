@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      users.hasMany(models.posts, {
+        foreignKey: 'userId',
+      });
     }
   };
   users.init({
@@ -66,6 +69,11 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: false
    }
   }, {
+    getterMethods: {
+      fullName() {
+        return this.last_name + ' ' + this.first_name;
+      }
+    },
     sequelize,
     modelName: 'users',
     underscored: true,

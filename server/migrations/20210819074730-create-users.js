@@ -8,6 +8,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.BIGINT
       },
+      username: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
       first_name: {
         allowNull: false,
         type: Sequelize.STRING
@@ -27,7 +31,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       company: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING
       },
       auth_flag: {

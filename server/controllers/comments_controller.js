@@ -3,7 +3,7 @@ const Comments = models.comments;
 const Op = models.Op;
 
 exports.getAllCommentsByPostId = (req, res) => {
-
+  
 }
 
 exports.getCommentByPostId = (req, res) => {
