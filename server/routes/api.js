@@ -2,9 +2,11 @@
 
 const express = require('express');
 const router = express.Router();
-const posts_controller = require('../controllers/posts_controller.js');
+
 const profile_controller = require('../controllers/profile_controller.js');
+const posts_controller = require('../controllers/posts_controller.js');
 const comments_controller = require('../controllers/comments_controller.js');
+const files_controller = require('../controllers/files_controller.js');
 const auth_controller = require('../controllers/auth_controller.js');
 
 // home router
@@ -60,7 +62,7 @@ router.delete('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies/:replyId(\\d+)
 // // images and movies router
 // router.get('/posts/:id(\\d+)/images:id(\\d+)', controller.getImageById);
 // router.get('/posts/:id(\\d+)/movies:id(\\d+)', controller.getMovieById);
-// router.post('posts/images', controller.createImage);
+router.post('posts/images', files_controller.createImage);
 // router.post('posts/movies', controller.createMovie);
 // router.put('posts/images/:id(\\d+)', controller.updateImage);
 // router.put('posts/movies/:id(\\d+)', controller.updateMovie);
