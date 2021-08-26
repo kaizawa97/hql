@@ -21,6 +21,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       age: {
+        allowNull: false,
+        defaultValue: 0,
         type: Sequelize.INTEGER.UNSIGNED
       },
       email: {
@@ -28,6 +30,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       password: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       company: {

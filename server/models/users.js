@@ -12,11 +12,21 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       users.hasMany(models.posts, {
-        foreignKey: 'userId',
+        foreignKey: 'userId'
       });
     }
   };
   users.init({
+    id: {
+      type: Sequelize.BIGINT,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    username: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
     first_name: {
       type: DataTypes.STRING,
       allowNull: false,

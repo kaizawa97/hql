@@ -8,6 +8,16 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.BIGINT
       },
+      postId: {
+        type: Sequelize.BIGINT,
+        allowNull: false,
+        references: {
+          model: 'posts',
+          key: 'id'
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
+      },
       body: {
         allowNull: false,
         type: Sequelize.TEXT

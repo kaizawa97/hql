@@ -11,9 +11,28 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      comments.belongsTo(models.posts, {
+        foreignKey: 'postId'
+      });
     }
   };
   comments.init({
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: Sequelize.BIGINT
+    },
+    postId: {
+      type: Sequelize.BIGINT,
+      allowNull: false,
+      references: {
+        model: 'posts',
+        key: 'id'
+      },
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    },
     body: { 
       type: DataTypes.TEXT,
       allowNull: false

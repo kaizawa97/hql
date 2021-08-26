@@ -8,6 +8,18 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.BIGINT
       },
+      userId: {
+        type: Sequelize.BIGINT,
+        references: {
+          model: {
+            tableName: 'users',
+            key: 'id'
+          },
+          onDelete: 'cascade',
+          onUpdate: 'cascade'
+        },
+        allowNull: false,
+      },
       title: {
         allowNull: false,
         type: Sequelize.STRING

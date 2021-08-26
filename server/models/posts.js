@@ -12,10 +12,11 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       posts.belongsTo(models.users, {
-        foreignKey: 'userId',
-        targetKey: 'id'
+        foreignKey: 'userId'
       });
-      posts.belongsToMany
+      posts.hasMany(models.comments, {
+        foreignKey: 'postId'
+      });
     }
   };
   posts.init({
@@ -23,6 +24,18 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BIGINT,
       primaryKey: true,
       autoIncrement: true
+    },
+    userId: {
+      type: Sequelize.BIGINT,
+      references: {
+        model: {
+          tableName: 'users',
+          key: 'id'
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
+      },
+      allowNull: false,
     },
     title: {
       type: DataTypes.STRING,
