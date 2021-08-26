@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true
     },
     userId: {
-      type: Sequelize.BIGINT,
+      type: DataTypes.BIGINT,
       references: {
         model: {
           tableName: 'users',

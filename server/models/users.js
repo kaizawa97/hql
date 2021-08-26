@@ -18,13 +18,13 @@ module.exports = (sequelize, DataTypes) => {
   };
   users.init({
     id: {
-      type: Sequelize.BIGINT,
+      type: DataTypes.BIGINT,
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
     },
     username: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false
     },
     first_name: {
