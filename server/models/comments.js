@@ -19,11 +19,10 @@ module.exports = (sequelize, DataTypes) => {
   comments.init({
     id: {
       allowNull: false,
-      autoIncrement: true,
       primaryKey: true,
-      type: DataTypes.BIGINT
+      type: DataTypes.UUID
     },
-    postId: {
+    post_id: {
       type: DataTypes.BIGINT,
       allowNull: false,
       references: {

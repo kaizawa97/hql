@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 
-const profile_controller = require('../controllers/profile_controller.js');
+const users_controller = require('../controllers/users_controller.js');
 const posts_controller = require('../controllers/posts_controller.js');
 const comments_controller = require('../controllers/comments_controller.js');
 const files_controller = require('../controllers/files_controller.js');
@@ -13,13 +13,13 @@ const auth_controller = require('../controllers/auth_controller.js');
 // router.get('/', posts_controller.index);
 
 // profile router
-// router.get('/profile/:name(\\w+)', profile_controller.getProfile);
-// router.get('/profile/:name(\\w+)/posts', profile_controller.getAllPostsByName);
-// router.get('/profile/:name(\\w+)/posts/:id(\\d+)', profile_controller.getPostById);
-// router.get('/profile/:name(\\w+)/posts/:id(\\d+)/comments', profile_controller.getAllCommentsByPostId);
-// router.get('/profile/:name(\\w+)/posts/:id(\\d+)/comments/:id(\\d+)', profile_controller.getCommentById);
-// router.put('/profile/:name(\\w+)', profile_controller.updateProfile);
-// router.delete('/profile/:name(\\w+)', profile_controller.deleteProfile);
+// router.get('/profile/:name(\\w+)', users_controller.getProfile);
+// router.get('/profile/:name(\\w+)/posts', users_controller.getAllPostsByName);
+// router.get('/profile/:name(\\w+)/posts/:id(\\d+)', users_controller.getPostById);
+// router.get('/profile/:name(\\w+)/posts/:id(\\d+)/comments', users_controller.getAllCommentsByPostId);
+// router.get('/profile/:name(\\w+)/posts/:id(\\d+)/comments/:id(\\d+)', users_controller.getCommentById);
+// router.put('/profile/:name(\\w+)', users_controller.updateProfile);
+// router.delete('/profile/:name(\\w+)', users_controller.deleteProfile);
 
 // user auth router
 // router.post('/auth/login', auth_controller.login);
@@ -60,13 +60,13 @@ router.delete('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies/:replyId(\\d+)
 
 
 // // images and movies router
-// router.get('/posts/:id(\\d+)/images:id(\\d+)', controller.getImageById);
-// router.get('/posts/:id(\\d+)/movies:id(\\d+)', controller.getMovieById);
-router.post('posts/images', files_controller.createImage);
-// router.post('posts/movies', controller.createMovie);
-// router.put('posts/images/:id(\\d+)', controller.updateImage);
-// router.put('posts/movies/:id(\\d+)', controller.updateMovie);
-// router.delete('posts/images/:id(\\d+)', controller.deleteImage);
-// router.delete('posts/movies/:id(\\d+)', controller.deleteMovie);
+// router.get('/images:id(\\d+)', controller.getImageById);
+// router.get('/movies:id(\\d+)', controller.getMovieById);
+router.post('/images', files_controller.createImage);
+// router.post('/movies', controller.createMovie);
+// router.put('/images/:id(\\d+)', controller.updateImage);
+// router.put('/movies/:id(\\d+)', controller.updateMovie);
+// router.delete('/images/:id(\\d+)', controller.deleteImage);
+// router.delete('/movies/:id(\\d+)', controller.deleteMovie);
 
 module.exports = router;

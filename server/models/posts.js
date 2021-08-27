@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       posts.belongsTo(models.users, {
-        foreignKey: 'userId'
+        foreignKey: 'user_id'
       });
       posts.hasMany(models.comments, {
         foreignKey: 'postId'
@@ -21,11 +21,11 @@ module.exports = (sequelize, DataTypes) => {
   };
   posts.init({
     id: {
-      type: DataTypes.BIGINT,
+      allowNull: false,
       primaryKey: true,
-      autoIncrement: true
+      type: DataTypes.UUID
     },
-    userId: {
+    user_id: {
       type: DataTypes.BIGINT,
       references: {
         model: {

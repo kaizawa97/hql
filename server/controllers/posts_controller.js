@@ -1,12 +1,10 @@
 const models = require('../models');
 const Posts = models.posts;
 const Op = models.Op;
+const uuid = require('uuid');
 
 exports.getAllPosts = (req, res) => {
-  const title = req.query.title;
-  var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
-
-  Posts.findAll({ where: condition })
+  Posts.findAll()
     .then(data => {
       res.send(data);
     })
@@ -32,13 +30,8 @@ exports.getPostById = (req, res) => {
     });
 };
 
-exports.getAllLikesByPostId = (req, res) => {
-}
-
-exports.getLikesCountByPostId = (req, res) => {
-}
-
 exports.createPost = (req, res) => {
+  const postid = uuid.v4();
   if (!req.body.title || !req.body.text) {
     res.status(400).send({
       message: "Contents can not be empty!"
@@ -47,10 +40,13 @@ exports.createPost = (req, res) => {
   }
 
   const post = {
+    id: postid,
+    user_id: req.body.user_id,
     title: req.body.title,
     body: req.body.text,
     image: req.body.image,
-    movie: req.body.movie
+    movie: req.body.movie,
+    created_at: new Date(),
   };
   // mysql上のカラムと連動している
 
@@ -66,17 +62,17 @@ exports.createPost = (req, res) => {
     });
 };
 
-exports.createLike = (req, res) => {
-};
-
 exports.updatePost = (req, res) => {
-  const id = req.params.id;
+  const postid = req.params.id;
+
   const post = {
+    id: postid,
     title: req.body.title,
     body: req.body.text,
     image: req.body.image,
-    movie: req.body.movie
-  }
+    movie: req.body.movie,
+    update_at: new Date(),
+  };
 
   Posts.update(post, {
     where: { id: id }
@@ -121,6 +117,15 @@ exports.deletePost = (req, res) => {
         message: "Could not delete Post with id=" + id
       });
     });
+};
+
+exports.getAllLikesByPostId = (req, res) => {
+}
+
+exports.getLikesCountByPostId = (req, res) => {
+}
+
+exports.createLike = (req, res) => {
 };
 
 exports.deleteLike = (req, res) => {

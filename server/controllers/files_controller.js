@@ -5,35 +5,37 @@ let storage = multer.diskStorage({
     cb(null, '../uploads/');
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname);
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix);
   },
   onFileUploadStart: function (file, req, res) {
     console.log(file.fieldname + ' is starting ...')
   }
 });
 
-let upload = multer({ 
+let upload = multer({
   storage: storage,
-  limits: { 
+  limits: {
     fileSize: 5000000,
     files: 10,
     fields: 10
-   }
+  }
 });
 
 exports.createImage = (req, res) => {
-  try {
-    upload(req, res);
-    if (req.file == undefined) {
-      res.status(400).send('Please upload image or video');
-    }
+    upload()
+    .then(() => {
+      if (req.file == undefined) {
+        res.status(400).send('Please upload image or video');
+      }
 
-    res.status(200).send({
-      messeage: 'Image uploaded successfully' + req.file.originalname
+      res.status(200).send({
+        messeage: 'Image uploaded successfully' + req.file.originalname
+      })
+        .catch(err => {
+          res.status(500).send({
+            message: `Could not upload the file: ${req.file.originalname}. ${err}`,
+          });
+        });
     });
-  } catch (err) {
-    res.status(500).send({
-      message: `Could not upload the file: ${req.file.originalname}. ${err}`,
-    });
-  }
 };

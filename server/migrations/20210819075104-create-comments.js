@@ -4,19 +4,20 @@ module.exports = {
     await queryInterface.createTable('comments', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.BIGINT
+        type: Sequelize.UUID
       },
-      postId: {
-        type: Sequelize.BIGINT,
-        allowNull: false,
+      post_id: {
+        type: Sequelize.UUID,
         references: {
-          model: 'posts',
-          key: 'id'
+          model: {
+            tableName: 'posts',
+            key: 'id'
+          },
+          onDelete: 'cascade',
+          onUpdate: 'cascade'
         },
-        onDelete: 'cascade',
-        onUpdate: 'cascade'
+        allowNull: false,
       },
       body: {
         allowNull: false,

@@ -4,11 +4,10 @@ module.exports = {
     await queryInterface.createTable('posts', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.BIGINT
+        type: Sequelize.UUID
       },
-      userId: {
+      user_id: {
         type: Sequelize.BIGINT,
         references: {
           model: {
