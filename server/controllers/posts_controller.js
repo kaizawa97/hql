@@ -31,14 +31,13 @@ exports.getPostById = (req, res) => {
 };
 
 exports.createPost = (req, res) => {
-  const postid = uuid.v4();
   if (!req.body.title || !req.body.text) {
     res.status(400).send({
       message: "Contents can not be empty!"
     });
     return;
   }
-
+  const postid = uuid.v4();
   const post = {
     id: postid,
     user_id: req.body.user_id,
@@ -63,10 +62,8 @@ exports.createPost = (req, res) => {
 };
 
 exports.updatePost = (req, res) => {
-  const postid = req.params.id;
-
   const post = {
-    id: postid,
+    id: req.params.id,
     title: req.body.title,
     body: req.body.text,
     image: req.body.image,
@@ -115,6 +112,27 @@ exports.deletePost = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message: "Could not delete Post with id=" + id
+      });
+    });
+};
+
+// postsのみの検索である為、別でusersも含めた検索を実装する予定あり
+exports.searchbyword = (req, res) => {
+  const word = req.params.word; // サニタイズしていないので注意
+  Posts.findAll({
+    where: {
+      title: {
+        [Op.like]: '%' + word + '%'
+      }
+    }
+  })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving posts."
       });
     });
 };

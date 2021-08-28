@@ -142,3 +142,14 @@ router.delete('posts/movies/:id(\\d+)', contoller.deleteMovie);
             like_count int
             body text
             reply text
+- JSON雛形:
+{
+    "username": "test",
+    "first_name": "test",
+    "last_name": "taro",
+    "age": "30",
+    "email": "abc@abc.com",
+    "password": "test",
+    "company": "test",
+    "auth_flag": "!"
+}

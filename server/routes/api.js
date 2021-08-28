@@ -31,21 +31,22 @@ const auth_controller = require('../controllers/auth_controller.js');
 // router.get('/auth/google/callback',auth_controller.googleCallback);
 
 // // users router
-// router.get('/users', controller.getAllUsers);
+router.get('/users', users_controller.getAllUsers);
+router.post('/users', users_controller.createUser);
 // router.get('/users/:name(\\w+)', controller.getUserByName);
 
 // // search router
-// router.get('/search:search_word(\\w+)', controller.search);
+router.get('/search:search_word(\\w+)', posts_controller.searchbyword);
 
 // posts router
 router.get('/posts', posts_controller.getAllPosts);
 router.get('/posts/:id(\\d+)', posts_controller.getPostById);
-// router.get('/posts/:id(\\d+)/likes',posts_controller.getAllLikesByPostId);
-// router.get('/posts/:id(\\d+)/likescount',posts_controller.getLikesCountByPostId);
 router.post('/posts', posts_controller.createPost);
-// router.post('/posts/:id(\\d+)/likes',posts_controller.createLike);
 router.put('/posts/:id(\\d+)', posts_controller.updatePost);
 router.delete('/posts/:id(\\d+)', posts_controller.deletePost);
+// router.get('/posts/:id(\\d+)/likes',posts_controller.getAllLikesByPostId);
+// router.get('/posts/:id(\\d+)/likescount',posts_controller.getLikesCountByPostId);
+// router.post('/posts/:id(\\d+)/likes',posts_controller.createLike);
 // router.delete('/posts/:id(\\d+)/likes/:likeId(\\d+)',posts_controller.deleteLike);
 
 // comments router
