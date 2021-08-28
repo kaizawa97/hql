@@ -1,6 +1,6 @@
 const models = require('../models');
 const Posts = models.posts;
-const Op = models.Op;
+const { Op } = require('sequelize');
 const uuid = require('uuid');
 
 exports.getAllPosts = (req, res) => {
@@ -38,13 +38,16 @@ exports.createPost = (req, res) => {
     return;
   }
   const postid = uuid.v4();
+  const imagePath = req.body.image;
+  const moviePath = req.body.movie;
+
   const post = {
     id: postid,
     user_id: req.body.user_id,
     title: req.body.title,
     body: req.body.text,
-    image: req.body.image,
-    movie: req.body.movie,
+    image: imagePath,
+    movie: moviePath,
     created_at: new Date(),
   };
   // mysql上のカラムと連動している
@@ -118,7 +121,7 @@ exports.deletePost = (req, res) => {
 
 // postsのみの検索である為、別でusersも含めた検索を実装する予定あり
 exports.searchbyword = (req, res) => {
-  const word = req.params.word; // サニタイズしていないので注意
+  const word = req.query.word; // サニタイズはされていたが明示的にはしていないので注意
   Posts.findAll({
     where: {
       title: {

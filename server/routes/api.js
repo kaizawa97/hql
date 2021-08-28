@@ -36,7 +36,7 @@ router.post('/users', users_controller.createUser);
 // router.get('/users/:name(\\w+)', controller.getUserByName);
 
 // // search router
-router.get('/search:search_word(\\w+)', posts_controller.searchbyword);
+router.get('/search', posts_controller.searchbyword);
 
 // posts router
 router.get('/posts', posts_controller.getAllPosts);
@@ -63,7 +63,7 @@ router.delete('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies/:replyId(\\d+)
 // // images and movies router
 // router.get('/images:id(\\d+)', controller.getImageById);
 // router.get('/movies:id(\\d+)', controller.getMovieById);
-router.post('/images', files_controller.createImage);
+// router.post('/images', files_controller.createImage);
 // router.post('/movies', controller.createMovie);
 // router.put('/images/:id(\\d+)', controller.updateImage);
 // router.put('/movies/:id(\\d+)', controller.updateMovie);
