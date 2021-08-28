@@ -143,6 +143,7 @@ router.delete('posts/movies/:id(\\d+)', contoller.deleteMovie);
             body text
             reply text
 - JSON雛形:
+users:
 {
     "username": "test",
     "first_name": "test",
@@ -151,5 +152,14 @@ router.delete('posts/movies/:id(\\d+)', contoller.deleteMovie);
     "email": "abc@abc.com",
     "password": "test",
     "company": "test",
-    "auth_flag": "!"
+    "auth_flag": "1"
+}
+
+posts:
+{
+    "user_id": "1",
+    "title": "test",
+    "text": "test",
+    "image": "https://localhost:5000/uploads/abc.jpg",
+    "movie": "https://localhost:5000/uploads/abc.mp4"
 }

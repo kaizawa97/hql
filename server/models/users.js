@@ -32,9 +32,6 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: true,
-        notNull: {
-          msg: 'The name cannot be empty'
-        }
       }
     },
     last_name: {
@@ -43,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: true,
         notNull: {
-          msg: 'The name cannot be empty'
+          msg: "The name cannot be empty",
         }
       }
     },
@@ -55,7 +52,6 @@ module.exports = (sequelize, DataTypes) => {
         isInt: true,
         min: 0,
         max: 130,
-        msg: 'The age must be between 0 and 130'
       }
     },
     email: {

@@ -27,7 +27,7 @@ exports.createUser = (req, res) => {
     created_at: new Date(),
   };
 
-  Users.create({user})
+  Users.create(user)
   .then(user => {
     res.send(user);
   })

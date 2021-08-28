@@ -40,7 +40,7 @@ router.get('/search:search_word(\\w+)', posts_controller.searchbyword);
 
 // posts router
 router.get('/posts', posts_controller.getAllPosts);
-router.get('/posts/:id(\\d+)', posts_controller.getPostById);
+router.get('/posts/:id(\\d+)', posts_controller.getPostById); //正規表現でuuidが取得できません
 router.post('/posts', posts_controller.createPost);
 router.put('/posts/:id(\\d+)', posts_controller.updatePost);
 router.delete('/posts/:id(\\d+)', posts_controller.deletePost);
