@@ -146,12 +146,12 @@ router.delete('posts/movies/:id(\\d+)', contoller.deleteMovie);
 users:
 {
     "username": "test",
-    "first_name": "test",
-    "last_name": "taro",
+    "full_name": "test taro",
     "age": "30",
     "email": "abc@abc.com",
     "password": "test",
     "company": "test",
+    "country": "England",
     "auth_flag": "1"
 }
 

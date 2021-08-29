@@ -33,7 +33,7 @@ module.exports = {
       movie: {
         type: Sequelize.STRING
       },
-      like_count: {
+      likes: {
         allowNull: false,
         defaultValue: 0,
         type: Sequelize.BIGINT

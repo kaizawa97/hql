@@ -12,11 +12,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      first_name: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      last_name: {
+      full_name: {
         allowNull: false,
         type: Sequelize.STRING
       },
@@ -24,6 +20,10 @@ module.exports = {
         allowNull: false,
         defaultValue: 0,
         type: Sequelize.INTEGER.UNSIGNED
+      },
+      phone: {
+        allowNull: true,
+        type: Sequelize.STRING
       },
       email: {
         allowNull: false,
@@ -36,6 +36,22 @@ module.exports = {
       company: {
         allowNull: true,
         type: Sequelize.STRING
+      },
+      country: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      icon_image: {
+        allowNull: true,
+        type: Sequelize.STRING
+      },
+      header_image: {
+        allowNull: true,
+        type: Sequelize.STRING
+      },
+      email_verified_at: {
+        allowNull: true,
+        type: Sequelize.DATE
       },
       auth_flag: {
         allowNull: false,

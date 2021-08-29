@@ -1,7 +1,7 @@
 const models = require('../models');
 const Posts = models.posts;
 const { Op } = require('sequelize');
-const uuid = require('uuid');
+const shortid = require('shortid');
 
 exports.getAllPosts = (req, res) => {
   Posts.findAll()
@@ -37,7 +37,7 @@ exports.createPost = (req, res) => {
     });
     return;
   }
-  const postid = uuid.v4();
+  const postid = shortid.generate();
   const imagePath = req.body.image;
   const moviePath = req.body.movie;
 

@@ -14,6 +14,9 @@ module.exports = (sequelize, DataTypes) => {
       users.hasMany(models.posts, {
         foreignKey: 'user_id'
       });
+      users.hasMany(models.comments, {
+        foreignKey: 'user_id'
+      });
     }
   };
   users.init({
@@ -27,14 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    first_name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      }
-    },
-    last_name: {
+    full_name: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
@@ -54,6 +50,13 @@ module.exports = (sequelize, DataTypes) => {
         max: 130,
       }
     },
+    phone: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      validate: {
+        is: ["^\d{9,10}$",'i']
+      }
+    },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -68,19 +71,33 @@ module.exports = (sequelize, DataTypes) => {
     },
     company: {
       type: DataTypes.STRING,
-     //  is: ["^[a-z]+$",'i']
-   },
+      //  is: ["^[a-z]+$",'i']
+    },
+    country: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      validate: {
+        is: ["^[a-zA-Z]+$",'i']
+      }
+    },
+    icon_image: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
+    header_image: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
     auth_flag: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false
-   }
-  }, {
-    getterMethods: {
-      fullName() {
-        return this.last_name + ' ' + this.first_name;
-      }
     },
+    email_verified_at: {
+      allowNull: true,
+      type: DataTypes.DATE
+    },
+  }, {
     sequelize,
     modelName: 'users',
     underscored: true,

@@ -17,12 +17,12 @@ exports.getAllUsers = (req, res) => {
 exports.createUser = (req, res) => {
   const user = {
     username: req.body.username,
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
+    full_name: req.body.full_name,
     age: req.body.age,
     email: req.body.email,
     password: req.body.password, //bcryptを後ほど実装する
     company: req.body.company,
+    country: req.body.country,
     auth_flag: req.body.auth_flag,
     created_at: new Date(),
   };

@@ -12,7 +12,10 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       comments.belongsTo(models.posts, {
-        foreignKey: 'postId'
+        foreignKey: 'post_id'
+      });
+      comments.belongsTo(models.users, {
+        foreignKey: 'user_id'
       });
     }
   };
@@ -22,8 +25,18 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.UUID
     },
-    post_id: {
+    user_id: {
       type: DataTypes.BIGINT,
+      allowNull: false,
+      references: {
+        model: 'users',
+        key: 'id'
+      },
+      onUpdate: 'cascode',
+      onDelete: 'cascade'
+    },
+    post_id: {
+      type: DataTypes.UUID,
       allowNull: false,
       references: {
         model: 'posts',

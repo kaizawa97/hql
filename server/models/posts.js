@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'user_id'
       });
       posts.hasMany(models.comments, {
-        foreignKey: 'postId'
+        foreignKey: 'post_id'
       });
     }
   };
@@ -54,18 +54,12 @@ module.exports = (sequelize, DataTypes) => {
     image: {
       type: DataTypes.STRING,
       allowNull: true,
-      validate: {
-        isUrl: true
-      }
     },
     movie: {
       type: DataTypes.STRING,
       allowNull: true,
-      validate: {
-        isUrl: true
-      }
     },
-    like_count: {
+    likes: {
       type: DataTypes.INTEGER,
       defaultValue: 0,
       allowNull: false

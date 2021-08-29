@@ -7,6 +7,16 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.UUID
       },
+      user_id: {
+        type: Sequelize.BIGINT,
+        allowNull: false,
+        references: {
+          model: 'users',
+          key: 'id'
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
+      },
       post_id: {
         type: Sequelize.UUID,
         references: {
