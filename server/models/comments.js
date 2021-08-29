@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Comments extends Model {
+  class comments extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,20 +11,58 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      comments.belongsTo(models.posts, {
+        foreignKey: 'post_id'
+      });
+      comments.belongsTo(models.users, {
+        foreignKey: 'user_id'
+      });
     }
   };
-  Comments.init({
-    body: DataTypes.TEXT,
+  comments.init({
+    id: {
+      allowNull: false,
+      primaryKey: true,
+      type: DataTypes.UUID
+    },
+    user_id: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      references: {
+        model: 'users',
+        key: 'id'
+      },
+      onUpdate: 'cascode',
+      onDelete: 'cascade'
+    },
+    post_id: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: 'posts',
+        key: 'id'
+      },
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    },
+    body: { 
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
     reply: DataTypes.TEXT,
     like_count: {
       allowNull: false,
       defaultValue: 0,
-      type: Sequelize.INTEGER
+      type: DataTypes.INTEGER
     }
+    // deletedAt: {
+    //   type: DataTypes.DATE,
+    //   allowNull: true
+    // },
   }, {
     sequelize,
-    modelName: 'Comments',
+    modelName: 'comments',
     underscored: true,
   });
-  return Comments;
+  return comments;
 };

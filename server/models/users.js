@@ -1,10 +1,9 @@
 'use strict';
 const {
-  Model, HostNotFoundError
+  Model
 } = require('sequelize');
-const { not } = require('sequelize/types/lib/operators');
 module.exports = (sequelize, DataTypes) => {
-  class Users extends Model {
+  class users extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -12,28 +11,50 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      users.hasMany(models.posts, {
+        foreignKey: 'user_id'
+      });
+      users.hasMany(models.comments, {
+        foreignKey: 'user_id'
+      });
     }
   };
-  Users.init({
-    name: {
+  users.init({
+    id: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    full_name: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: true,
         notNull: {
-          msg: 'The name cannot be empty'
+          msg: "The name cannot be empty",
         }
       }
     },
     age: {
-      type: DataTypes.INTEGER.UNSIZED,
+      type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
         notEmpty: true,
         isInt: true,
         min: 0,
         max: 130,
-        msg: 'The age must be between 0 and 130'
+      }
+    },
+    phone: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      validate: {
+        is: ["^\d{9,10}$",'i']
       }
     },
     email: {
@@ -44,19 +65,42 @@ module.exports = (sequelize, DataTypes) => {
         isEmail: true
       }
     },
-    auth_flag: {
-       type: DataTypes.BOOLEAN,
-       allowNull: false,
-       defaultValue: false
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     company: {
-       type: DataTypes.STRING,
+      type: DataTypes.STRING,
       //  is: ["^[a-z]+$",'i']
-    }
+    },
+    country: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      validate: {
+        is: ["^[a-zA-Z]+$",'i']
+      }
+    },
+    icon_image: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
+    header_image: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
+    auth_flag: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    },
+    email_verified_at: {
+      allowNull: true,
+      type: DataTypes.DATE
+    },
   }, {
     sequelize,
-    modelName: 'Users',
+    modelName: 'users',
     underscored: true,
   });
-  return Users;
+  return users;
 };
