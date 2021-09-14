@@ -17,6 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 
 app.use('/api/v1/',api);
+app.use(express.static('/public'));
 
 app.get('/', (req, res) => {
   res.json({messeage: "Hello World!"});

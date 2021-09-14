@@ -61,9 +61,9 @@ router.delete('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies/:replyId(\\d+)
 
 
 // // images and movies router
-// router.get('/images:id(\\d+)', controller.getImageById);
+router.get('/images', files_controller.getImageById);
 // router.get('/movies:id(\\d+)', controller.getMovieById);
-// router.post('/images', files_controller.createImage);
+router.post('/upload', files_controller.upload, files_controller.createImage);
 // router.post('/movies', controller.createMovie);
 // router.put('/images/:id(\\d+)', controller.updateImage);
 // router.put('/movies/:id(\\d+)', controller.updateMovie);
