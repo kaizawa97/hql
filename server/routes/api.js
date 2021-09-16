@@ -3,11 +3,11 @@
 const express = require('express');
 const router = express.Router();
 
-const users_controller = require('../controllers/users_controller.js');
-const posts_controller = require('../controllers/posts_controller.js');
-const comments_controller = require('../controllers/comments_controller.js');
-const files_controller = require('../controllers/files_controller.js');
-const auth_controller = require('../controllers/auth_controller.js');
+const users_controller = require('../controllers/users_controller');
+const posts_controller = require('../controllers/posts_controller');
+const comments_controller = require('../controllers/comments_controller');
+const files_controller = require('../controllers/files_controller');
+const auth_controller = require('../controllers/auth_controller');
 
 // home router
 // router.get('/', posts_controller.index);
@@ -61,9 +61,9 @@ router.delete('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies/:replyId(\\d+)
 
 
 // // images and movies router
-router.get('/images', files_controller.getImageById);
+// router.get('/images', files_controller.getImageById);
 // router.get('/movies:id(\\d+)', controller.getMovieById);
-router.post('/upload', files_controller.upload, files_controller.createImage);
+// router.post('/upload', files_controller.image);
 // router.post('/movies', controller.createMovie);
 // router.put('/images/:id(\\d+)', controller.updateImage);
 // router.put('/movies/:id(\\d+)', controller.updateMovie);

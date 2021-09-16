@@ -3,6 +3,8 @@ const Posts = models.posts;
 const { Op } = require('sequelize');
 const shortid = require('shortid');
 
+const uploadFile = require('./files_controller');
+
 exports.getAllPosts = (req, res) => {
   Posts.findAll()
     .then(data => {
@@ -38,7 +40,7 @@ exports.createPost = (req, res) => {
     return;
   }
   const postid = shortid.generate();
-  const imagePath = req.body.image;
+  const imagePath = uploadFile.image(req);
   const moviePath = req.body.movie;
 
   const post = {

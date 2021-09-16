@@ -6,6 +6,7 @@ const logger = require('morgan');
 const passport = require('passport');
 const app = express();
 const api = require('./routes/api');
+const path = require('path');
 
 require('dotenv').config();
 const port = process.env.NODE_PORT;
@@ -17,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 
 app.use('/api/v1/',api);
-app.use(express.static('/public'));
+app.use('/public',express.static(path.join(__dirname,'../public')));
 
 app.get('/', (req, res) => {
   res.json({messeage: "Hello World!"});

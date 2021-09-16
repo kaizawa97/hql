@@ -160,6 +160,6 @@ posts:
     "user_id": "1",
     "title": "test",
     "text": "test",
-    "image": "https://localhost:5000/uploads/abc.jpg",
-    "movie": "https://localhost:5000/uploads/abc.mp4"
+    "image": "https://localhost:5000/public/test.jpg",
+    "movie": "https://localhost:5000/public/abc.mp4"
 }

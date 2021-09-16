@@ -7,13 +7,13 @@ const storage = multer.diskStorage({
     cb(null, process.env.NODE_MULTER_PATH);
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = Math.round(Math.random() * 1E9);
+    const uniqueSuffix = Math.round(Math.random() * 1E14);
     cb(null, String(Date.now() + uniqueSuffix + path.extname(file.originalname)));
   }
 });
 
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || path.extname(file.originalname) === '.jpg' || path.extname(file.originalname) === '.png') {
     cb(null, true);
   } else {
     req.fileValidationError = 'goes wrong on the mimetype';
@@ -21,32 +21,31 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-exports.upload = multer({
+const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 5000000,
-    files: 10,
-    fields: 10
+    fileSize: 1024 * 1024 * 10
   },
   fileFilter: fileFilter
 }).single('image');
 
-exports.createImage = (req, res) => {
-  console.log(req);
-  if (req.fileValidationError) {
-    return res.status(400).json({
-      message: "only jpg or png"
-    });
-  }
-  if (req.file) {
-    return res.status(200).send(req.file.filename);
-  } else {
-    return res.status(400).json({
-      message: "noFileUploaded"
-    });
-  }  
+exports.image = (req, res) => {
+  upload(req, res, err => {
+    try {
+      if (req.fileValidationError) {
+        const messeage = "only jpg or png"
+        return messeage;
+      }
+      return req.file.path;
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({
+        message: 'File upload failed. Please try again.'
+      });
+    }
+  });
 };
 
 exports.getImageById = (req, res) => {
-  getFilesList(req, res);
+
 };
