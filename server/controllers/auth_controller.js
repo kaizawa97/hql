@@ -5,6 +5,9 @@ const Op = models.Op;
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const GoogleStrategy = require('passport-google-oauth2').Strategy;
+
+require('dotenv').config();
 
 passport.use(new LocalStrategy({ 
   usernameField: 'email',
@@ -16,7 +19,7 @@ passport.use(new LocalStrategy({
         email: email
       }
     });
-    if (err) {return done(err);}
+    // if (err) {return done(err);}
     if (!user) {
       return done(null, false);
     }
@@ -28,20 +31,17 @@ passport.use(new LocalStrategy({
 ));
 
 exports.login = async (req, res) => {
- passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login',
-    failureFlash: false
- })
+ passport.authenticate('local',{session: false})
+ res.send("Secure response from" + JSON.stringify(req.body));
 };
-
 
 exports.logout = (req, res) => {
   req.logout();
   res.redirect('/');
 }
 
-exports.signup = async (req, res,next) => {
+// id and password 
+exports.signup = async (req, res) => {
   const body = req.body;
   if (!(body.username && body.full_name && body.age && body.email && body.password && body.country)) {
     return res.status(400).send({
@@ -80,50 +80,31 @@ exports.signup = async (req, res,next) => {
 
 }
 
-// const GoogleStrategy = require('passport-google-oauth2').Strategy;
-// const JwtStrategy = require('passport-jwt').Strategy;
-// const ExtractJwt = require('passport-jwt').ExtractJwt;
-// require('dotenv').config();
+// google OAuth2.0
+passport.use(new GoogleStrategy({
+  clientID: process.env.GOOGLE_OAUTH2_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_OAUTH2_CLIENT_SECRET,
+  callbackURL: process.env.GOOGLE_OAUTH2_CALLBACK_URL,
+  passReqToCallback: true
+}, function (request, accessToken, refreshToken, profile, done) {
+  if (profile) {
+    return done(null, profile);
+  }
+  else {
+    return done(null, false);
+  }
+}));
 
-// // google OAuth2.0
-// passport.use(new GoogleStrategy({
-//   clientID: process.env.GOOGLE_CLIENT_ID,
-//   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-//   callbackURL: process.env.GOOGLE_CALLBACK_URL,
-//   passReqToCallback: true
-// }, function (request, accessToken, refreshToken, profile, done) {
-//   Users.findOrCreate({ googleId: profile.id},function (err, user) {
-//     return done(err, user);
-//   });
-// }
-// ));
+exports.googleLogin = (req, res) => {
+  passport.authenticate('google', {
+    scope: ['profile', 'email']
+  });
+  res.send("Secure response from" + JSON.stringify(req.body));
+};
 
-// passport.use(new JwtStrategy({
-//   jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('jwt'),
-//   secretOrKey: process.env.JWT_SECRET,
-//   issuer: process.env.JWT_ISSUER,
-//   audience: process.env.JWT_AUDIENCE
-// }, function (jwtPayload, done) {
-//   if (jwtPayload) {
-//     return done(null, user, jwtPayload);
-//   }
-//   else {
-//     return done(null, false);
-//   }
-// }
-// ));
-
-// exports.google = (req, res) => {
-//   passport.authenticate('google', {
-//     scope: ['email', 'profile']
-//   }),
-//   res.send("Secure response from " + JSON.stringify(req.user));
-// };
-
-// exports.googleCallback = (req, res) => {
-//   passport.authenticate('google', {
-//     successRedirect: '/auth/google/success',
-//     failureRedirect: '/auth/google/failure'
-//   });
-// };
-
+exports.googleCallback = (req, res) => {
+  passport.authenticate('google', {
+    session: false,
+  });
+  res.send("Secure response from" + JSON.stringify(req.body));
+};

@@ -2,6 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
 
 const users_controller = require('../controllers/users_controller');
 const posts_controller = require('../controllers/posts_controller');
@@ -23,12 +24,14 @@ const auth_controller = require('../controllers/auth_controller');
 
 // user auth router
 router.post('/login', auth_controller.login);
-// router.get('/logout', auth_controller.logout);
+router.get('/logout', auth_controller.logout);
 router.post('/signup',auth_controller.signup);
 
 // OAuth2 router
-// router.get('/auth/google',auth_controller.google);
-// router.get('/auth/google/callback',auth_controller.googleCallback);
+router.get('/auth/google',passport.authenticate('google', {
+  scope: ['profile', 'email']
+}),auth_controller.googleLogin);
+router.get('/auth/google/callback',auth_controller.googleCallback);
 
 // // users router
 router.get('/users', users_controller.getAllUsers);
