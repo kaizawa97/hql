@@ -22,9 +22,9 @@ const auth_controller = require('../controllers/auth_controller');
 // router.delete('/profile/:name(\\w+)', users_controller.deleteProfile);
 
 // user auth router
-// router.post('/auth/login', auth_controller.login);
-// router.get('/auth/logout', auth_controller.logout);
-// router.post('/auth/register', auth_controller.register);
+router.post('/login', auth_controller.login);
+// router.get('/logout', auth_controller.logout);
+router.post('/signup',auth_controller.signup);
 
 // OAuth2 router
 // router.get('/auth/google',auth_controller.google);

@@ -29,8 +29,8 @@ const upload = multer({
   fileFilter: fileFilter
 }).single('image');
 
-exports.image = (req, res) => {
-  upload(req, res, err => {
+exports.image = async (req, res) => {
+  await upload(req, res, err => {
     try {
       if (req.fileValidationError) {
         const messeage = "only jpg or png"

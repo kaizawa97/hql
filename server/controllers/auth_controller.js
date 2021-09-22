@@ -2,20 +2,82 @@ const models = require('../models');
 const Users = models.users;
 const Op = models.Op;
 
+const bcrypt = require('bcrypt');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
-exports.login = (req, res) => {
-  if (err) { return next (err); }
+passport.use(new LocalStrategy({ 
+  usernameField: 'email',
+  passwordField: 'password'
+},
+  async function(email, password, done) {
+    const user = await Users.findOne({
+      where: {
+        email: email
+      }
+    });
+    if (err) {return done(err);}
+    if (!user) {
+      return done(null, false);
+    }
+    if (!await bcrypt.compare(password, user.password)) {
+      return done(null, false);
+    }
+    return done(null, user);
+  }
+));
 
+exports.login = async (req, res) => {
+ passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login',
+    failureFlash: false
+ })
 };
+
 
 exports.logout = (req, res) => {
   req.logout();
   res.redirect('/');
 }
 
-exports.register = (req, res) => {
+exports.signup = async (req, res,next) => {
+  const body = req.body;
+  if (!(body.username && body.full_name && body.age && body.email && body.password && body.country)) {
+    return res.status(400).send({
+      error: 'Missing required fields'
+    });
+  }
+  if (body.password.length < 8) {
+    return res.status(400).send({
+      error: 'Password must be at least 8 characters long'
+    });
+  }
+  const salt = await bcrypt.genSalt(11);
+  const passwd = await bcrypt.hash(body.password, salt);
+
+  const user = {
+    username: body.username,
+    full_name: body.full_name,
+    age: body.age,
+    email: body.email,
+    password: passwd,
+    company: req.body.company,
+    country: req.body.country,
+    auth_flag: req.body.auth_flag,
+    created_at: new Date(),
+  };
+
+  Users.create(user)
+    .then(user => {
+      res.send(user);
+    })
+    .catch(err => {
+      res.status(400).send({
+        error: err || 'Error creating user'
+      });
+    });
+
 }
 
 // const GoogleStrategy = require('passport-google-oauth2').Strategy;

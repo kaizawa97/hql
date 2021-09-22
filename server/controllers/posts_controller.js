@@ -33,6 +33,11 @@ exports.getPostById = (req, res) => {
 };
 
 exports.createPost = (req, res) => {
+  if (!check(req.body).isJSON()) {
+    return res.status(400).json({
+      message: 'Invalid JSON'
+    });
+  }
   if (!req.body.title || !req.body.text) {
     res.status(400).send({
       message: "Contents can not be empty!"
