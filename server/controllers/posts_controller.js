@@ -3,6 +3,8 @@ const Posts = models.posts;
 const { Op } = require('sequelize');
 const shortid = require('shortid');
 
+const uploadFile = require('./files_controller');
+
 exports.getAllPosts = (req, res) => {
   Posts.findAll()
     .then(data => {
@@ -31,6 +33,11 @@ exports.getPostById = (req, res) => {
 };
 
 exports.createPost = (req, res) => {
+  if (!check(req.body).isJSON()) {
+    return res.status(400).json({
+      message: 'Invalid JSON'
+    });
+  }
   if (!req.body.title || !req.body.text) {
     res.status(400).send({
       message: "Contents can not be empty!"
@@ -38,7 +45,7 @@ exports.createPost = (req, res) => {
     return;
   }
   const postid = shortid.generate();
-  const imagePath = req.body.image;
+  const imagePath = uploadFile.image(req);
   const moviePath = req.body.movie;
 
   const post = {

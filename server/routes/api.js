@@ -2,12 +2,13 @@
 
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
 
-const users_controller = require('../controllers/users_controller.js');
-const posts_controller = require('../controllers/posts_controller.js');
-const comments_controller = require('../controllers/comments_controller.js');
-const files_controller = require('../controllers/files_controller.js');
-const auth_controller = require('../controllers/auth_controller.js');
+const users_controller = require('../controllers/users_controller');
+const posts_controller = require('../controllers/posts_controller');
+const comments_controller = require('../controllers/comments_controller');
+const files_controller = require('../controllers/files_controller');
+const auth_controller = require('../controllers/auth_controller');
 
 // home router
 // router.get('/', posts_controller.index);
@@ -22,13 +23,13 @@ const auth_controller = require('../controllers/auth_controller.js');
 // router.delete('/profile/:name(\\w+)', users_controller.deleteProfile);
 
 // user auth router
-// router.post('/auth/login', auth_controller.login);
-// router.get('/auth/logout', auth_controller.logout);
-// router.post('/auth/register', auth_controller.register);
+router.post('/login', passport.authenticate('local',{session: false}),auth_controller.login);
+router.get('/logout', auth_controller.logout);
+router.post('/signup',auth_controller.signup);
 
 // OAuth2 router
-// router.get('/auth/google',auth_controller.google);
-// router.get('/auth/google/callback',auth_controller.googleCallback);
+router.get('/auth/google',auth_controller.googleLogin);
+router.get('/auth/google/callback',auth_controller.googleCallback);
 
 // // users router
 router.get('/users', users_controller.getAllUsers);
@@ -39,7 +40,7 @@ router.post('/users', users_controller.createUser);
 router.get('/search', posts_controller.searchbyword);
 
 // posts router
-router.get('/posts', posts_controller.getAllPosts);
+router.get('/posts', auth_controller.isAuthenticated, posts_controller.getAllPosts);
 router.get('/posts/:id(\\d+)', posts_controller.getPostById); //正規表現でuuidが取得できません
 router.post('/posts', posts_controller.createPost);
 router.put('/posts/:id(\\d+)', posts_controller.updatePost);
@@ -61,9 +62,9 @@ router.delete('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies/:replyId(\\d+)
 
 
 // // images and movies router
-// router.get('/images:id(\\d+)', controller.getImageById);
+// router.get('/images', files_controller.getImageById);
 // router.get('/movies:id(\\d+)', controller.getMovieById);
-// router.post('/images', files_controller.createImage);
+// router.post('/upload', files_controller.image);
 // router.post('/movies', controller.createMovie);
 // router.put('/images/:id(\\d+)', controller.updateImage);
 // router.put('/movies/:id(\\d+)', controller.updateMovie);

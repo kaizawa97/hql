@@ -1,46 +1,51 @@
 const multer = require('multer');
+const path = require('path');
+require('dotenv').config();
 
-let storage = multer.diskStorage({
+const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '../uploads/');
+    cb(null, process.env.NODE_MULTER_PATH);
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, file.fieldname + '-' + uniqueSuffix);
-  },
-  onFileUploadStart: function (file, req, res) {
-    console.log(file.fieldname + ' is starting ...')
+    const uniqueSuffix = Math.round(Math.random() * 1E14);
+    cb(null, String(Date.now() + uniqueSuffix + path.extname(file.originalname)));
   }
 });
 
-let upload = multer({
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || path.extname(file.originalname) === '.jpg' || path.extname(file.originalname) === '.png') {
+    cb(null, true);
+  } else {
+    req.fileValidationError = 'goes wrong on the mimetype';
+    cb(null, false);
+  }
+};
+
+const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 5000000,
-    files: 10,
-    fields: 10
-  }
-}).single('file');
+    fileSize: 1024 * 1024 * 10
+  },
+  fileFilter: fileFilter
+}).single('image');
 
-// exports.createImage = upload.single('image'),(req, res) => {
-//     try {
-//       await uploadFile(req, res);
-  
-//       if (req.file == undefined) {
-//         return res.status(400).send({ message: "Please upload a file!" });
-//       }
-  
-//       res.status(200).send({
-//         message: "Uploaded the file successfully: " + req.file.originalname,
-//       });
-//     } catch (err) {
-//       if (err.code == "LIMIT_FILE_SIZE") {
-//         return res.status(500).send({
-//           message: "File size cannot be larger than 5MB!",
-//         });
-//       }
-//       res.status(500).send({
-//         message: `Could not upload the file: ${req.file.originalname}. ${err}`,
-//       });
-//     }
-// };
+exports.image = async (req, res) => {
+  await upload(req, res, err => {
+    try {
+      if (req.fileValidationError) {
+        const messeage = "only jpg or png"
+        return messeage;
+      }
+      return req.file.path;
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({
+        message: 'File upload failed. Please try again.'
+      });
+    }
+  });
+};
+
+exports.getImageById = (req, res) => {
+
+};
