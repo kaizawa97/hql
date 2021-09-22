@@ -14,8 +14,7 @@ const port = process.env.NODE_PORT;
 app.use(helmet());
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(passport.initialize());
+app.use(express.urlencoded({ extended: false }));
 
 app.use('/api/v1/',api);
 app.use('/public',express.static(path.join(__dirname,'../public')));

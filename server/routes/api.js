@@ -23,14 +23,12 @@ const auth_controller = require('../controllers/auth_controller');
 // router.delete('/profile/:name(\\w+)', users_controller.deleteProfile);
 
 // user auth router
-router.post('/login', auth_controller.login);
+router.post('/login', passport.authenticate('local',{session: false}),auth_controller.login);
 router.get('/logout', auth_controller.logout);
 router.post('/signup',auth_controller.signup);
 
 // OAuth2 router
-router.get('/auth/google',passport.authenticate('google', {
-  scope: ['profile', 'email']
-}),auth_controller.googleLogin);
+router.get('/auth/google',auth_controller.googleLogin);
 router.get('/auth/google/callback',auth_controller.googleCallback);
 
 // // users router
@@ -42,7 +40,7 @@ router.post('/users', users_controller.createUser);
 router.get('/search', posts_controller.searchbyword);
 
 // posts router
-router.get('/posts', posts_controller.getAllPosts);
+router.get('/posts', auth_controller.isAuthenticated, posts_controller.getAllPosts);
 router.get('/posts/:id(\\d+)', posts_controller.getPostById); //正規表現でuuidが取得できません
 router.post('/posts', posts_controller.createPost);
 router.put('/posts/:id(\\d+)', posts_controller.updatePost);
