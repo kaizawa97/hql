@@ -28,7 +28,9 @@ router.get('/logout', auth_controller.logout);
 router.post('/signup',auth_controller.signup);
 
 // OAuth2 router
-router.get('/auth/google',auth_controller.googleLogin);
+router.get('/auth/google',passport.authenticate('google', {
+  scope: ['profile', 'email']
+}),auth_controller.googleLogin);
 router.get('/auth/google/callback',auth_controller.googleCallback);
 
 // // users router

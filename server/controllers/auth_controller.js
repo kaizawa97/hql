@@ -33,7 +33,7 @@ passport.serializeUser(function(user,done){
   done(null,user);
 });
 
-passport.deserializeUser(function(user,done){
+passport.deserializeUser(function(username,done){
   console.log('deserializeUser');
   const user = Users.findOne({
     where: {
@@ -130,9 +130,6 @@ passport.use(new GoogleStrategy({
 }));
 
 exports.googleLogin = (req, res) => {
-  passport.authenticate('google', {
-    scope: ['profile', 'email']
-  });
   res.send("Secure response from" + JSON.stringify(req.body));
 };
 
