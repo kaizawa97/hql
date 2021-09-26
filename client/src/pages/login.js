@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import reportWebVitals from './reportWebVitals';
+import reportWebVitals from '../reportWebVitals';
 import App from './App';
-import Navbarcomponent from './components/navbar';
-import Footercomponent from './components/footer';
+import Navbarcomponent from '../components/navbar';
+import Footercomponent from '../components/footer';
 
 ReactDOM.render(
   <React.StrictMode>

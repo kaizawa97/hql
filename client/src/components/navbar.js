@@ -1,16 +1,30 @@
 import React from 'react';
-import { BrowserRouter, Link } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import 'bulma/css/bulma.min.css';
-import { Button } from 'react-bulma-components';
+import { Button, Navbar } from 'react-bulma-components';
 
-const Navbar = () => {
+const Navbarcomponent = () => {
   return (
     <BrowserRouter>
-      <Button color="primary" className="navbar-item">
-        <Link to="/">Home</Link>
-      </Button>
+      <Navbar>
+        <Navbar.Brand className="">
+          <Navbar.Item to="/home">
+            <img src="https://bulma.io/images/bulma-logo.png" width="112" height="35" />
+          </Navbar.Item>
+        </Navbar.Brand>
+        <Navbar.Container className="" align="right">
+          <Navbar.Item>
+            <Button className="button is-info is-radiusless" to="/home">
+              Sign up
+            </Button>
+            <Button className="button is-light" to="/">
+              Log in
+            </Button>
+          </Navbar.Item>
+        </Navbar.Container>
+      </Navbar>
     </BrowserRouter>
   );
 };
 
-export default Navbar;
+export default Navbarcomponent;
