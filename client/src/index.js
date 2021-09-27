@@ -1,14 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
-import App from './App';
-import Navbarcomponent from './components/navbar';
-import Footercomponent from './components/footer';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+
+import { Home } from './pages/home';
+import { Signin } from './pages/signin';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Navbarcomponent />
-    <Footercomponent />
+    <BrowserRouter>
+      <Switch>
+        <Route exact path='/' component={Home} />
+        <Route path='/login' component={Signin}/>
+        {/* <Route path='/posts' component={Posts}/> */}
+      </Switch>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );

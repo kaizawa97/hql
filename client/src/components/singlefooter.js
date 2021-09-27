@@ -1,23 +1,8 @@
 import React from 'react';
-import { BrowserRouter, Link } from 'react-router-dom';
 import 'bulma/css/bulma.min.css';
 
-export const Footercomponent = () => {
+export const SingleFootercomponent = () => {
   return (
-    <BrowserRouter>
-      <footer className="footer has-background-primary">
-        <div className="container is-max-desktop">
-          <div className="has-text-white content has-text-centered">
-            <h1> HQL </h1>
-            <div className="column">
-              <h6>About us</h6>
-              <p className="has-text-center">
-                このサービスは招待制です。
-              </p>
-            </div>
-          </div>
-        </div>
-      </footer>
       <div class="has-background-success has-text-white bottom">
         <div class="container is-fluid">
           <div class="columns">
@@ -33,6 +18,5 @@ export const Footercomponent = () => {
           </div>
         </div>
       </div>
-    </BrowserRouter>
   );
 };

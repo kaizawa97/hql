@@ -1,30 +1,30 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Link } from 'react-router-dom';
 import 'bulma/css/bulma.min.css';
-import { Button, Navbar } from 'react-bulma-components';
 
-const Navbarcomponent = () => {
+export const Navbarcomponent = () => {
   return (
     <BrowserRouter>
-      <Navbar>
-        <Navbar.Brand className="">
-          <Navbar.Item to="/home">
-            <img src="https://bulma.io/images/bulma-logo.png" width="112" height="35" />
-          </Navbar.Item>
-        </Navbar.Brand>
-        <Navbar.Container className="" align="right">
-          <Navbar.Item>
-            <Button className="button is-info is-radiusless" to="/home">
-              Sign up
-            </Button>
-            <Button className="button is-light" to="/">
-              Log in
-            </Button>
-          </Navbar.Item>
-        </Navbar.Container>
-      </Navbar>
-    </BrowserRouter>
+      <div className="container is-max-desktop">
+        <div className="py-3 navbar-brand" >
+          <a className="navbar-item" href="https://bulma.io">
+            <img src="https://bulma.io/images/bulma-logo.png" width="120" height="120" />
+          </a>
+
+          <div className="navbar-end">
+            <div className="navbar-item">
+              <div className="buttons">
+                <a className="button is-info is-expanded is-block">
+                  <Link to="/signup" style={{ color: 'white' }}>Sign Up</Link>
+                </a>
+                <a className="button is-light">
+                  <Link to="/login" style={{ color: 'black'  }}>Login</Link>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </BrowserRouter >
   );
 };
-
-export default Navbarcomponent;
