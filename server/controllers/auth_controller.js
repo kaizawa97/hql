@@ -15,7 +15,7 @@ require('dotenv').config();
 app.use(cookieParser());
 
 app.use(session({
-  secret: 'hello chobbi',
+  secret: '@%Ô`>g@P\Í#(Lºú£±ÕÉ8ËÛÙVÎ%¢½}Y#[&ZûkÑsÇDü±xQà8âèbbê#ÊþÍÀ-:5ÐÒ"Ò´',
   resave: false,
   saveUninitialized: false,
   cookie: {
@@ -25,35 +25,18 @@ app.use(session({
     sameSite: true
   }
 }));
-app.use(passport.initialize());
-app.use(passport.session());
 
-passport.serializeUser(function(user,done){
-  console.log('serializeUser');
-  done(null,user);
-});
-
-passport.deserializeUser(function(username,done){
-  console.log('deserializeUser');
-  const user = Users.findOne({
-    where: {
-      username:username
-    }
-  });
-  done(null,user);
-});
-
-passport.use(new LocalStrategy({ 
+passport.use(new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password'
 },
-  async function(email, password, done, err) {
+  async function (email, password, done, err) {
     const user = await Users.findOne({
       where: {
         email: email
       }
     });
-    if (err) {return done(err);}
+    if (err) { return done(err); }
     if (!user) {
       return done(null, false);
     }
@@ -64,9 +47,29 @@ passport.use(new LocalStrategy({
   }
 ));
 
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
+
 exports.login = async (req, res) => {
- passport.authenticate('local',{session: true})
- res.send("Secure response from" + JSON.stringify(req.body));
+  if (req.user.auth_flag === true) {
+    res.send("Secure response from" + JSON.stringify(req.body));
+  } else {
+    res.status(401).json({
+      message: "あなたは招待されておりません。しばらくお待ちください。"
+    })
+  }
+};
+
+exports.loginFailed = (req, res) => {
+  console.log(req.isAuthenticated());
+  res.status(401).json({
+    message: "Incorrect username or password"
+  })
 };
 
 exports.logout = (req, res) => {
@@ -78,12 +81,12 @@ exports.logout = (req, res) => {
 exports.signup = async (req, res) => {
   const body = req.body;
   if (!(body.username && body.full_name && body.age && body.email && body.password && body.country)) {
-    return res.status(400).send({
+    return res.status(400).json({
       error: 'Missing required fields'
     });
   }
   if (body.password.length < 8) {
-    return res.status(400).send({
+    return res.status(400).json({
       error: 'Password must be at least 8 characters long'
     });
   }
@@ -98,7 +101,7 @@ exports.signup = async (req, res) => {
     password: passwd,
     company: req.body.company,
     country: req.body.country,
-    auth_flag: req.body.auth_flag,
+    auth_flag: false,
     created_at: new Date(),
   };
 
@@ -145,6 +148,6 @@ exports.isAuthenticated = (req, res, next) => {
     return next();
   }
   else {
-    res.redirect('/api/v1/login');
+    res.redirect('/api/v1/login/failed');
   }
 }

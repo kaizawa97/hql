@@ -7,6 +7,7 @@ const app = express();
 const api = require('./routes/api');
 const path = require('path');
 const cors = require('cors');
+const passport = require('passport');
 
 require('dotenv').config();
 const port = process.env.NODE_PORT;
@@ -20,6 +21,9 @@ app.use(cors({
   credentials: true,
   optionsSuccessStatus: 200
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/api/v1/',api);
 app.use('/public',express.static(path.join(__dirname,'../public')));

@@ -6,49 +6,47 @@ import { SingleFootercomponent } from '../components/singlefooter';
 
 export const Signin = () => {
   return (
-    <BrowserRouter>
-      <section className="hero is-white is-fullheight">
-        <SingleNavbarcomponent />
-        <div className="hero-body">
-          <div className="container has-text-centered">
-            <div className="column is-4 is-offset-4">
-              <h3 className="title has-text-black">Sign in</h3>
+    <section className="hero is-white is-fullheight">
+      <SingleNavbarcomponent />
+      <div className="hero-body">
+        <div className="container has-text-centered">
+          <div className="column is-4 is-offset-4">
+            <h3 className="title has-text-black">Sign in</h3>
 
-              <form action="" className="box">
-                <div className="field">
-                  <div className="control">
-                    <input className="input is-large" type="email" placeholder="Your Email" required />
-                  </div>
+            <form action="" className="box">
+              <div className="field">
+                <div className="control">
+                  <input className="input is-large" type="email" placeholder="Your Email" required />
                 </div>
-                
-                <div className="field">
-                  <div className="control">
-                    <input className="input is-large" type="password" placeholder="Your Password" required />
-                  </div>
-                </div>
+              </div>
 
-                <div className="field">
-                  <label className="checkbox">
-                    <input type="checkbox" />
-                    Remember me
-                  </label>
+              <div className="field">
+                <div className="control">
+                  <input className="input is-large" type="password" placeholder="Your Password" required />
                 </div>
-                <button className="button is-block is-info is-large is-fullwidth">
-                  Login
-                  <i className="fa fa-sign-in" aria-hidden="true" />
-                </button>
-              </form>
+              </div>
 
-              <p className="has-text-grey">
-                <a href="../">Sign Up</a> &nbsp;·&nbsp;
-                <a href="../">Forgot Password</a> &nbsp;·&nbsp;
-                <a href="../">Need Help?</a>
-              </p>
-            </div>
+              <div className="field">
+                <label className="checkbox">
+                  <input type="checkbox" />
+                  Remember me
+                </label>
+              </div>
+              <button className="button is-block is-info is-large is-fullwidth">
+                Login
+                <i className="fa fa-sign-in" aria-hidden="true" />
+              </button>
+            </form>
+
+            <p className="has-text-grey">
+              <a href="../">Sign Up</a> &nbsp;·&nbsp;
+              <a href="../">Forgot Password</a> &nbsp;·&nbsp;
+              <a href="../">Need Help?</a>
+            </p>
           </div>
         </div>
-      </section>
-      <SingleFootercomponent/>
-    </BrowserRouter >
+      </div>
+      <SingleFootercomponent />
+    </section>
   );
 };

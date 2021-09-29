@@ -23,7 +23,11 @@ const auth_controller = require('../controllers/auth_controller');
 // router.delete('/profile/:name(\\w+)', users_controller.deleteProfile);
 
 // user auth router
-router.post('/login', passport.authenticate('local',{session: false}),auth_controller.login);
+router.post('/login',passport.authenticate('local',{
+  failureRedirect: 'login/failed',
+  session: true
+}), auth_controller.login);
+router.get('/login/failed', auth_controller.loginFailed);
 router.get('/logout', auth_controller.logout);
 router.post('/signup',auth_controller.signup);
 
