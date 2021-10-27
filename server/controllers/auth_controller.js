@@ -90,7 +90,7 @@ exports.signup = async (req, res) => {
       error: 'Password must be at least 8 characters long'
     });
   }
-  const salt = await bcrypt.genSalt(11);
+  const salt = await bcrypt.genSalt(10);
   const passwd = await bcrypt.hash(body.password, salt);
 
   const user = {
@@ -115,6 +115,20 @@ exports.signup = async (req, res) => {
       });
     });
 
+}
+
+exports.invite = (req, res) => {
+  const inviteflag = true;
+
+  Users.create(user)
+  .then(user => {
+    res.send(user);
+  })
+  .catch(err => {
+    res.status(400).send({
+      error: err || 'Error creating user'
+    });
+  });
 }
 
 // google OAuth2.0
