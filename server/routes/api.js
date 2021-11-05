@@ -4,11 +4,13 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 
-const users_controller = require('../controllers/users_controller');
+const auth_controller = require('../controllers/auth_controller');
+const preusers_controller = require('../controllers/preusers_controller');
 const posts_controller = require('../controllers/posts_controller');
 const comments_controller = require('../controllers/comments_controller');
+const replies_controller = require('../controllers/replies_controller');
+const likes_controller = require('../controllers/likes_controller');
 const files_controller = require('../controllers/files_controller');
-const auth_controller = require('../controllers/auth_controller');
 
 // home router
 // router.get('/', posts_controller.index);
@@ -39,33 +41,33 @@ router.get('/auth/google',passport.authenticate('google', {
 router.get('/auth/google/callback',auth_controller.googleCallback);
 
 // // users router
-router.get('/users', users_controller.getAllUsers);
-router.post('/users', users_controller.createUser);
+// router.get('/users', users_controller.getAllUsers);
+// router.post('/users', users_controller.createUser);
 // router.get('/users/:name(\\w+)', controller.getUserByName);
 
 // // search router
 router.get('/search', posts_controller.searchbyword);
 
 // posts router
-router.get('/posts', auth_controller.isAuthenticated, posts_controller.getAllPosts);
-router.get('/posts/:id(\\d+)', posts_controller.getPostById); //正規表現でuuidが取得できません
-router.post('/posts', posts_controller.createPost);
-router.put('/posts/:id(\\d+)', posts_controller.updatePost);
-router.delete('/posts/:id(\\d+)', posts_controller.deletePost);
+// router.get('/posts', auth_controller.isAuthenticated, posts_controller.getAllPosts);
+// router.get('/posts/:id(\\d+)', posts_controller.getPostById); //正規表現でuuidが取得できません
+// router.post('/posts', posts_controller.createPost);
+// router.put('/posts/:id(\\d+)', posts_controller.updatePost);
+// router.delete('/posts/:id(\\d+)', posts_controller.deletePost);
 // router.get('/posts/:id(\\d+)/likes',posts_controller.getAllLikesByPostId);
 // router.get('/posts/:id(\\d+)/likescount',posts_controller.getLikesCountByPostId);
 // router.post('/posts/:id(\\d+)/likes',posts_controller.createLike);
 // router.delete('/posts/:id(\\d+)/likes/:likeId(\\d+)',posts_controller.deleteLike);
 
 // comments router
-router.get('/posts/:id(\\d+)/comments', comments_controller.getAllCommentsByPostId);
-router.get('/posts/:id(\\d+)/comments/:commentId(\\d+)', comments_controller.getCommentByPostId);
-router.get('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies', comments_controller.getAllRepliesByCommentId);
-router.get('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies/:replyId(\\d+)', comments_controller.getReplyByCommentId);
-router.post('/posts/:id(\\d+)/comments', comments_controller.createComment);
-router.post('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies', comments_controller.createReply);
-router.delete('/posts/:id(\\d+)/comments/:commentId(\\d+)', comments_controller.deleteComment);
-router.delete('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies/:replyId(\\d+)', comments_controller.deleteReply);
+// router.get('/posts/:id(\\d+)/comments', comments_controller.getAllCommentsByPostId);
+// router.get('/posts/:id(\\d+)/comments/:commentId(\\d+)', comments_controller.getCommentByPostId);
+// router.get('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies', comments_controller.getAllRepliesByCommentId);
+// router.get('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies/:replyId(\\d+)', comments_controller.getReplyByCommentId);
+// router.post('/posts/:id(\\d+)/comments', comments_controller.createComment);
+// router.post('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies', comments_controller.createReply);
+// router.delete('/posts/:id(\\d+)/comments/:commentId(\\d+)', comments_controller.deleteComment);
+// router.delete('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies/:replyId(\\d+)', comments_controller.deleteReply);
 
 
 // // images and movies router

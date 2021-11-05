@@ -1,6 +1,6 @@
 const models = require('../models');
 const Comments = models.comments;
-const { Op } = models.Op;
+const Op  = models.Op;
 const uploadFile = require('./files_controller');
 
 exports.getAllCommentsByPostId = (req, res) => {

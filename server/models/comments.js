@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.BIGINT
+      type: DataTypes.BIGINT
     },
     user_id: {
       type: DataTypes.BIGINT,
@@ -43,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade'
     },
     post_id: {
-      type: Sequelize.BIGINT,
+      type: DataTypes.BIGINT,
       allowNull: false,
       references: {
         model: 'posts',
@@ -58,15 +58,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     image: {
       allowNull: true,
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     movie: {
       allowNull: true,
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     deleted_at: {
       allowNull: true,
-      type: Sequelize.DATE
+      type: DataTypes.DATE
     }
   }, {
     sequelize,

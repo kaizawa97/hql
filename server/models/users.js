@@ -106,11 +106,11 @@ module.exports = (sequelize, DataTypes) => {
     verified_status: {
       allowNull: false,
       defaultValue: 2,
-      type: Sequelize.INTEGER
+      type: DataTypes.INTEGER
     },
     deleted_at: {
       allowNull: true,
-      type: Sequelize.DATE
+      type: DataTypes.DATE
     }
   }, {
     sequelize,
