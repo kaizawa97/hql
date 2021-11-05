@@ -20,13 +20,13 @@ module.exports = (sequelize, DataTypes) => {
       posts.hasMany(models.replies, {
         foreignKey: 'post_id'
       });
-      posts.hasMany(models.comments, {
+      posts.hasMany(models.likes, {
         foreignKey: 'post_id'
       });
     }
   };
   posts.init({
-    iid: {
+    id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,

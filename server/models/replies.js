@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class comments extends Model {
+  class replies extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,21 +11,21 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      comments.belongsTo(models.users, {
+      replies.belongsTo(models.users, {
         foreignKey: 'user_id'
       });
-      comments.belongsTo(models.posts, {
+      replies.belongsTo(models.posts, {
         foreignKey: 'post_id'
       });
-      comments.hasMany(models.replies, {
+      replies.belongsTo(models.comments, {
         foreignKey: 'comments_id'
       });
-      comments.hasMany(models.likes, {
-        foreignKey: 'comments_id'
+      replies.hasMany(models.likes, {
+        foreignKey: 'replies_id'
       });
     }
   };
-  comments.init({
+  replies.init({
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -33,28 +33,57 @@ module.exports = (sequelize, DataTypes) => {
       type: Sequelize.BIGINT
     },
     user_id: {
-      type: DataTypes.BIGINT,
+      type: Sequelize.BIGINT,
       allowNull: false,
       references: {
         model: 'users',
         key: 'id'
       },
-      onUpdate: 'cascode',
+      onUpdate: 'cascade',
       onDelete: 'cascade'
     },
     post_id: {
       type: Sequelize.BIGINT,
       allowNull: false,
       references: {
-        model: 'posts',
-        key: 'id'
+        model: {
+          tableName: 'posts',
+          key: 'id'
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
       },
-      onDelete: 'cascade',
-      onUpdate: 'cascade'
+    },
+    comments_id: {
+      type: Sequelize.BIGINT,
+      allowNull: true,
+      references: {
+        model: {
+          tableName: 'comments',
+          key: 'id'
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
+      },
+    },
+    replies_id: {
+      type: Sequelize.BIGINT,
+      allowNull: true,
+      references: {
+        model: {
+          tableName: 'replies',
+          key: 'id'
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
+      },
     },
     body: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      }
     },
     image: {
       allowNull: true,
@@ -65,13 +94,13 @@ module.exports = (sequelize, DataTypes) => {
       type: Sequelize.STRING
     },
     deleted_at: {
-      allowNull: true,
-      type: Sequelize.DATE
+      type: DataTypes.DATE,
+      allowNull: true
     }
   }, {
     sequelize,
-    modelName: 'comments',
+    modelName: 'replies',
     underscored: true,
   });
-  return comments;
+  return replies;
 };

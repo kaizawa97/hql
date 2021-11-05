@@ -52,6 +52,11 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING
       },
+      verified_status: {
+        allowNull: false,
+        defaultValue: 2,
+        type: Sequelize.INTEGER
+      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE

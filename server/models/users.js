@@ -102,6 +102,15 @@ module.exports = (sequelize, DataTypes) => {
     header_image: {
       allowNull: true,
       type: DataTypes.STRING
+    },
+    verified_status: {
+      allowNull: false,
+      defaultValue: 2,
+      type: Sequelize.INTEGER
+    },
+    deleted_at: {
+      allowNull: true,
+      type: Sequelize.DATE
     }
   }, {
     sequelize,
