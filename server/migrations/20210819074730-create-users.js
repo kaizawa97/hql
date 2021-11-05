@@ -23,7 +23,7 @@ module.exports = {
         type: Sequelize.INTEGER.UNSIGNED
       },
       phone: {
-        allowNull: true,
+        allowNull: false,
         unique: true,
         type: Sequelize.STRING
       },
@@ -52,21 +52,16 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING
       },
-      email_verified_at: {
-        allowNull: true,
-        type: Sequelize.DATE
-      },
-      auth_flag: {
-        allowNull: false,
-        defaultValue: false,
-        type: Sequelize.BOOLEAN
-      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
       updated_at: {
         allowNull: false,
+        type: Sequelize.DATE
+      },
+      deleted_at: {
+        allowNull: true,
         type: Sequelize.DATE
       }
     });

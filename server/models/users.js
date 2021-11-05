@@ -17,6 +17,12 @@ module.exports = (sequelize, DataTypes) => {
       users.hasMany(models.comments, {
         foreignKey: 'user_id'
       });
+      users.hasMany(models.replies, {
+        foreignKey: 'user_id'
+      });
+      users.hasMany(models.likes, {
+        foreignKey: 'user_id'
+      });
     }
   };
   users.init({
@@ -56,7 +62,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     phone: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
       unique: true,
       validate: {
         is: ["^\d{9,10}$",'i']
@@ -80,7 +86,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     company: {
       type: DataTypes.STRING,
-      //  is: ["^[a-z]+$",'i']
+      allowNull: true
     },
     country: {
       allowNull: false,
@@ -96,16 +102,7 @@ module.exports = (sequelize, DataTypes) => {
     header_image: {
       allowNull: true,
       type: DataTypes.STRING
-    },
-    auth_flag: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false
-    },
-    email_verified_at: {
-      allowNull: true,
-      type: DataTypes.DATE
-    },
+    }
   }, {
     sequelize,
     modelName: 'users',

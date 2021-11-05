@@ -17,13 +17,20 @@ module.exports = (sequelize, DataTypes) => {
       posts.hasMany(models.comments, {
         foreignKey: 'post_id'
       });
+      posts.hasMany(models.replies, {
+        foreignKey: 'post_id'
+      });
+      posts.hasMany(models.comments, {
+        foreignKey: 'post_id'
+      });
     }
   };
   posts.init({
-    id: {
+    iid: {
       allowNull: false,
+      autoIncrement: true,
       primaryKey: true,
-      type: DataTypes.UUID
+      type: Sequelize.BIGINT
     },
     user_id: {
       type: DataTypes.BIGINT,
@@ -37,13 +44,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       allowNull: false,
     },
-    title: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      }
-    },
     body: {
       type: DataTypes.TEXT,
       allowNull: false,
@@ -52,22 +52,17 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     image: {
-      type: DataTypes.STRING,
       allowNull: true,
+      type: Sequelize.STRING
     },
     movie: {
-      type: DataTypes.STRING,
       allowNull: true,
+      type: Sequelize.STRING
     },
-    likes: {
-      type: DataTypes.INTEGER,
-      defaultValue: 0,
-      allowNull: false
+    deleted_at: {
+      type: DataTypes.DATE,
+      allowNull: true
     }
-    // deletedAt: {
-    //   type: DataTypes.DATE,
-    //   allowNull: true
-    // }
   }, {
     sequelize,
     modelName: 'posts',

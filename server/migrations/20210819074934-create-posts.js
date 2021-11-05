@@ -4,8 +4,9 @@ module.exports = {
     await queryInterface.createTable('posts', {
       id: {
         allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.UUID
+        type: Sequelize.BIGINT
       },
       user_id: {
         type: Sequelize.BIGINT,
@@ -19,34 +20,28 @@ module.exports = {
         },
         allowNull: false,
       },
-      title: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
       body: {
         allowNull: false,
         type: Sequelize.TEXT
       },
       image: {
+        allowNull: true,
         type: Sequelize.STRING
       },
       movie: {
+        allowNull: true,
         type: Sequelize.STRING
       },
-      likes: {
-        allowNull: false,
-        defaultValue: 0,
-        type: Sequelize.BIGINT
-      },
-      // deletedAt: {
-      //   type: Sequelize.DATE
-      // },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
       updated_at: {
         allowNull: false,
+        type: Sequelize.DATE
+      },
+      deleted_at: {
+        allowNull: true,
         type: Sequelize.DATE
       }
     });

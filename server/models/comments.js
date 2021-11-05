@@ -11,19 +11,26 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      comments.belongsTo(models.users, {
+        foreignKey: 'user_id'
+      });
       comments.belongsTo(models.posts, {
         foreignKey: 'post_id'
       });
-      comments.belongsTo(models.users, {
-        foreignKey: 'user_id'
+      posts.hasMany(models.replies, {
+        foreignKey: 'post_id'
+      });
+      posts.hasMany(models.comments, {
+        foreignKey: 'post_id'
       });
     }
   };
   comments.init({
     id: {
       allowNull: false,
+      autoIncrement: true,
       primaryKey: true,
-      type: DataTypes.UUID
+      type: Sequelize.BIGINT
     },
     user_id: {
       type: DataTypes.BIGINT,
@@ -36,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade'
     },
     post_id: {
-      type: DataTypes.UUID,
+      type: Sequelize.BIGINT,
       allowNull: false,
       references: {
         model: 'posts',
@@ -45,20 +52,22 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     },
-    body: { 
+    body: {
       type: DataTypes.TEXT,
       allowNull: false
     },
-    reply: DataTypes.TEXT,
-    like_count: {
-      allowNull: false,
-      defaultValue: 0,
-      type: DataTypes.INTEGER
+    image: {
+      allowNull: true,
+      type: Sequelize.STRING
+    },
+    movie: {
+      allowNull: true,
+      type: Sequelize.STRING
+    },
+    deleted_at: {
+      allowNull: true,
+      type: Sequelize.DATE
     }
-    // deletedAt: {
-    //   type: DataTypes.DATE,
-    //   allowNull: true
-    // },
   }, {
     sequelize,
     modelName: 'comments',

@@ -4,8 +4,9 @@ module.exports = {
     await queryInterface.createTable('comments', {
       id: {
         allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.UUID
+        type: Sequelize.BIGINT
       },
       user_id: {
         type: Sequelize.BIGINT,
@@ -18,7 +19,8 @@ module.exports = {
         onDelete: 'cascade'
       },
       post_id: {
-        type: Sequelize.UUID,
+        type: Sequelize.BIGINT,
+        allowNull: false,
         references: {
           model: {
             tableName: 'posts',
@@ -27,29 +29,29 @@ module.exports = {
           onDelete: 'cascade',
           onUpdate: 'cascade'
         },
-        allowNull: false,
       },
       body: {
         allowNull: false,
         type: Sequelize.TEXT
       },
-      reply: {
-        type: Sequelize.TEXT
+      image: {
+        allowNull: true,
+        type: Sequelize.STRING
       },
-      like_count: {
-        allowNull: false,
-        defaultValue: 0,
-        type: Sequelize.BIGINT
+      movie: {
+        allowNull: true,
+        type: Sequelize.STRING
       },
-      // deletedAt: {
-      //   type: Sequelize.DATE
-      // },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
       updated_at: {
         allowNull: false,
+        type: Sequelize.DATE
+      },
+      deleted_at: {
+        allowNull: true,
         type: Sequelize.DATE
       }
     });
