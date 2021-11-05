@@ -1,8 +1,6 @@
 const models = require('../models');
 const Posts = models.posts;
 const { Op } = require('sequelize');
-const shortid = require('shortid');
-
 const uploadFile = require('./files_controller');
 
 exports.getAllPosts = (req, res) => {
@@ -19,15 +17,19 @@ exports.getAllPosts = (req, res) => {
 };
 
 exports.getPostById = (req, res) => {
-  const id = req.params.id;
+  const postId = req.params.id;
 
-  Posts.findByPk(id)
+  Posts.findAll({
+    where: {
+      id: postId
+    }
+  })
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error retrieving post with id=" + id
+        message: "Error retrieving post with id=" + postId
       });
     });
 };
@@ -39,23 +41,21 @@ exports.createPost = (req, res) => {
     });
   }
   if (!req.body.title || !req.body.text) {
-    res.status(400).send({
+    return res.status(400).send({
       message: "Contents can not be empty!"
     });
-    return;
   }
-  const postid = shortid.generate();
+
   const imagePath = uploadFile.image(req);
   const moviePath = req.body.movie;
 
   const post = {
-    id: postid,
     user_id: req.body.user_id,
     title: req.body.title,
     body: req.body.text,
     image: imagePath,
     movie: moviePath,
-    created_at: new Date(),
+    created_at: new Date()
   };
   // mysql上のカラムと連動している
 
@@ -78,7 +78,7 @@ exports.updatePost = (req, res) => {
     body: req.body.text,
     image: req.body.image,
     movie: req.body.movie,
-    update_at: new Date(),
+    update_at: new Date()
   };
 
   Posts.update(post, {
@@ -103,10 +103,10 @@ exports.updatePost = (req, res) => {
 };
 
 exports.deletePost = (req, res) => {
-  const id = req.params.id;
+  const postId = req.params.id;
 
   Posts.destroy({
-    where: { id: id }
+    where: { id: postId }
   })
     .then(num => {
       if (num == 1) {
@@ -115,13 +115,13 @@ exports.deletePost = (req, res) => {
         });
       } else {
         res.send({
-          message: `Cannot delete Post with id=${id}. Maybe Post was not found!`
+          message: `Cannot delete Post with id=${postId}. Maybe Post was not found!`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Could not delete Post with id=" + id
+        message: "Could not delete Post with id=" + postId
       });
     });
 };
@@ -146,15 +146,3 @@ exports.searchbyword = (req, res) => {
       });
     });
 };
-
-exports.getAllLikesByPostId = (req, res) => {
-}
-
-exports.getLikesCountByPostId = (req, res) => {
-}
-
-exports.createLike = (req, res) => {
-};
-
-exports.deleteLike = (req, res) => {
-}
