@@ -16,7 +16,7 @@ require('dotenv').config();
 app.use(cookieParser());
 
 app.use(session({
-  secret: '@%Ô`>g@P\Í#(Lºú£±ÕÉ8ËÛÙVÎ%¢½}Y#[&ZûkÑsÇDü±xQà8âèbbê#ÊþÍÀ-:5ÐÒ"Ò´',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
@@ -32,24 +32,34 @@ passport.use(new LocalStrategy({
   passwordField: 'password'
 },
   async function (email, password, done, err) {
+    if (email === '' || password === '') {
+      return done(null, false, {
+        message: 'Email or password is empty'
+      });
+    } else if (err) {
+      return done(err);
+    }
     const user = await Users.findOne({
       where: {
-        email: email
+        email: email // email found
       }
     });
-    if (err) { return done(err); }
     if (!user) {
-      return done(null, false);
+      return done(null, false, {
+        message: 'Incorrect username or password'
+      });
+    } else if (await bcrypt.compare(password, user.password)) {
+      return done(null, user);
+    } else {
+      return done(null, false, {
+        message: 'Incorrect username or password'
+      });
     }
-    if (!await bcrypt.compare(password, user.password)) {
-      return done(null, false);
-    }
-    return done(null, user);
   }
 ));
 
 passport.serializeUser((user, done) => {
-  done(null, user);
+  done(null, user.username);
 });
 
 passport.deserializeUser((user, done) => {
@@ -57,17 +67,10 @@ passport.deserializeUser((user, done) => {
 });
 
 exports.login = async (req, res) => {
-  if (req.user.auth_flag === true) {
-    res.send("Secure response from" + JSON.stringify(req.body));
-  } else {
-    res.status(401).json({
-      message: "あなたは招待されておりません。しばらくお待ちください。"
-    })
-  }
+  res.send("Secure response from" + JSON.stringify(req.body));
 };
 
 exports.loginFailed = (req, res) => {
-  console.log(req.isAuthenticated());
   res.status(401).json({
     message: "Incorrect username or password"
   })
@@ -102,7 +105,6 @@ exports.signup = async (req, res) => {
     password: passwd,
     company: body.company,
     country: body.country,
-    auth_flag: false,
     created_at: new Date(),
   };
 
