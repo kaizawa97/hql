@@ -4,7 +4,19 @@ import 'bulma/css/bulma.min.css';
 import { SingleNavbarcomponent } from '../components/singlenavbar';
 import { SingleFootercomponent } from '../components/singlefooter';
 
+import { useSignin } from '../hooks/useSignin';
+
 export const Signin = () => {
+  const {
+    email,
+    password,
+    error,
+    loading,
+    user,
+    blanksetEmail,
+    blanksetPassword
+  } = useSignin();
+
   return (
     <section className="hero is-white is-fullheight">
       <SingleNavbarcomponent />

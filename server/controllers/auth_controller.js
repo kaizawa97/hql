@@ -1,6 +1,7 @@
 const models = require('../models');
 const Users = models.users;
 const Op = models.Op;
+const shortid = require('shortid');
 
 const express = require('express');
 const bcrypt = require('bcrypt');
@@ -118,17 +119,27 @@ exports.signup = async (req, res) => {
 }
 
 exports.invite = (req, res) => {
-  const inviteflag = true;
+  let inviteflag = false;
+  if (req.body.ademail === "admin_hql@gmail.com" && req.body.invite_code === process.env.INVITE_CODE) {
+    inviteflag = true;
+  }
+  const user = {
+    auth_flag: inviteflag
+  };
 
-  Users.create(user)
-  .then(user => {
-    res.send(user);
+  Users.update(user, {
+    where: { email: req.body.email }
   })
-  .catch(err => {
-    res.status(400).send({
-      error: err || 'Error creating user'
+    .then(user => {
+      res.status(200).send({
+        message: "Successfully invite"
+      });
+    })
+    .catch(err => {
+      res.status(400).send({
+        error: err || 'Error creating user'
+      });
     });
-  });
 }
 
 // google OAuth2.0

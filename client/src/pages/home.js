@@ -10,5 +10,6 @@ export const Home = () => {
         <p>Hello World</p>
       </div>
       <Footercomponent />
-    </div>)
+    </div>
+    )
 }
