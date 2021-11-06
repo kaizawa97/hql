@@ -64,10 +64,10 @@ router.delete('/comments/:commentId(\\d+)', comments_controller.deleteComment);
 // router.delete('/likes/:likeId(\\d+)',likes_controller.deleteLike);
 
 // replies router comment階層以下の事を指す
-router.get('/replies/:commentId(\\d+)', comments_controller.getAllRepliesByCommentId);
-router.post('/replies', comments_controller.createReply);
-router.put('/replies/:replyId(\\d+)', comments_controller.updateComment);
-router.delete('replies/:replyId(\\d+)', comments_controller.deleteReply);
+router.get('/replies/:commentId(\\d+)', replies_controller.getAllRepliesByCommentId);
+router.post('/replies', replies_controller.createReply);
+router.put('/replies/:replyId(\\d+)', replies_controller.updateReply);
+router.delete('replies/:replyId(\\d+)', replies_controller.deleteReply);
 
 // // images and movies router
 // router.get('/images', files_controller.getImageById);
