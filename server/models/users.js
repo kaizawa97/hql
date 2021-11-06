@@ -62,7 +62,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     phone: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       unique: true,
       validate: {
         is: ["^\d{9,10}$",'i']
@@ -105,8 +105,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     verified_status: {
       allowNull: false,
-      defaultValue: 2,
-      type: DataTypes.INTEGER
+      defaultValue: false,
+      type: DataTypes.BOOLEAN
     },
     deleted_at: {
       allowNull: true,

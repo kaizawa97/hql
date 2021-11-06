@@ -21,23 +21,27 @@ exports.getAllCommentsByPostId = (req, res) => {
 };
 
 exports.createComment = (req, res) => {
-  if (!check(req.body).isJSON()) {
-    return res.status(400).json({
-      message: 'Invalid JSON'
-    });
-  }
-  if (!req.body.body) {
+  const Body = req.body;
+  const imagePath = Body.image;
+  const moviePath = Body.movie;
+
+  // const imagePath = uploadFile.image(req);
+
+  // if (!check(req.body).isJSON()) {
+  //   return res.status(400).json({
+  //     message: 'Invalid JSON'
+  //   });
+  // }
+  if (!Body.text && !imagePath && !moviePath) {
     return res.status(400).send({
       message: 'Content cannot be empty',
     });
   }
-  const imagePath = uploadFile.image(req);
-  const moviePath = req.body.movie;
 
   const comment = {
-    post_id: req.body.post_id,
-    user_id: req.body.user_id,
-    body: req.body.body,
+    post_id: Body.post_id,
+    user_id: Body.user_id,
+    body: Body.body,
     image: imagePath,
     movie: moviePath,
     created_at: new Date()
@@ -57,15 +61,22 @@ exports.createComment = (req, res) => {
 
 exports.updateComment = (req, res) => {
   const commentId = req.params.commentId;
-  const imagePath = uploadFile.image(req);
-  const moviePath = req.body.movie;
+  const Body = req.body;
+  const imagePath = Body.image;
+  const moviePath = Body.movie;
 
   const comment = {
-    body: req.body.body,
+    body: Body.body,
     image: imagePath,
     movie: moviePath,
     update_at: new Date()
   };
+  
+  if (!Body.text && !imagePath && !moviePath) {
+    res.status(400).send({
+      message: 'Content cannot be empty',
+    });
+  }
 
   Comments.update(comment, {
     where: {

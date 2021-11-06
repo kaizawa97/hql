@@ -81,7 +81,7 @@ exports.logout = (req, res) => {
 // id and password 
 exports.signup = async (req, res) => {
   const body = req.body;
-  if (!(body.username && body.full_name && body.age && body.email && body.password && body.country)) {
+  if (!(body.username || body.full_name || body.age || body.email || body.password || body.country)) {
     return res.status(400).json({
       error: 'Missing required fields'
     });
@@ -100,8 +100,8 @@ exports.signup = async (req, res) => {
     age: body.age,
     email: body.email,
     password: passwd,
-    company: req.body.company,
-    country: req.body.country,
+    company: body.company,
+    country: body.country,
     auth_flag: false,
     created_at: new Date(),
   };
@@ -116,30 +116,6 @@ exports.signup = async (req, res) => {
       });
     });
 
-}
-
-exports.invite = (req, res) => {
-  let inviteflag = false;
-  if (req.body.ademail === "admin_hql@gmail.com" && req.body.invite_code === process.env.INVITE_CODE) {
-    inviteflag = true;
-  }
-  const user = {
-    auth_flag: inviteflag
-  };
-
-  Users.update(user, {
-    where: { email: req.body.email }
-  })
-    .then(user => {
-      res.status(200).send({
-        message: "Successfully invite"
-      });
-    })
-    .catch(err => {
-      res.status(400).send({
-        error: err || 'Error creating user'
-      });
-    });
 }
 
 // google OAuth2.0

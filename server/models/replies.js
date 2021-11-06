@@ -56,7 +56,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     comments_id: {
       type: DataTypes.BIGINT,
-      allowNull: true,
+      allowNull: false,
       references: {
         model: {
           tableName: 'comments',

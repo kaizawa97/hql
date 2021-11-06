@@ -22,20 +22,22 @@ exports.getAllRepliesByCommentId = (req, res) => {
 };
 
 exports.createReply = (req, res) => {
-  if (!req.body.body) {
+  const Body = req.body;
+  const imagePath = Body.image;
+  const moviePath = Body.movie;
+
+  if (!Body.text && !imagePath && !moviePath) {
     res.status(400).send({
       message: 'Content cannot be empty',
     });
   }
-  const imagePath = uploadFile.image(req);
-  const moviePath = req.body.movie;
 
   const replies = {
-    user_id: req.body.user_id,
-    post_id: req.body.post_id,
-    comment_id: req.body.comment_id,
-    replies_id: req.body.replies_id,
-    body: req.body.body,
+    user_id: Body.user_id,
+    post_id: Body.post_id,
+    comment_id: Body.comment_id,
+    replies_id: Body.replies_id,
+    body: Body.body,
     image: imagePath,
     movie: moviePath,
     created_at: new Date()
@@ -54,15 +56,22 @@ exports.createReply = (req, res) => {
 
 exports.updateReply = (req, res) => {
   const replyId = req.params.replyId;
-  const imagePath = uploadFile.image(req);
-  const moviePath = req.body.movie;
+  const Body = req.body;
+  const imagePath = Body.image;
+  const moviePath = Body.movie;
 
   const reply = {
-    body: req.body.body,
+    body: Body.body,
     image: imagePath,
     movie: moviePath,
     updated_at: new Date()
   };
+
+  if (!Body.text && !imagePath && !moviePath) {
+    res.status(400).send({
+      message: 'Content cannot be empty',
+    });
+  }
 
   Replies.update(reply, {
     where: {

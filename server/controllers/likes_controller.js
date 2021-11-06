@@ -9,7 +9,6 @@ exports.getLikesCountByPostId = (req, res) => {
 };
 
 exports.createLike = (req, res) => {
-  
 };
 
 exports.deleteLike = (req, res) => {

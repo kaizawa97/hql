@@ -35,24 +35,24 @@ exports.getPostById = (req, res) => {
 };
 
 exports.createPost = (req, res) => {
-  if (!check(req.body).isJSON()) {
-    return res.status(400).json({
-      message: 'Invalid JSON'
-    });
-  }
-  if (!req.body.title || !req.body.text) {
+  const Body = req.body;
+  const imagePath = Body.image;
+  const moviePath = Body.movie;
+
+  // if (!check(req.body).isJSON()) {
+  //   return res.status(400).json({
+  //     message: 'Invalid JSON'
+  //   });
+  // }
+  if (!Body.text && !imagePath && !moviePath) {
     return res.status(400).send({
       message: "Contents can not be empty!"
     });
   }
 
-  const imagePath = uploadFile.image(req);
-  const moviePath = req.body.movie;
-
   const post = {
-    user_id: req.body.user_id,
-    title: req.body.title,
-    body: req.body.text,
+    user_id: Body.user_id,
+    body: Body.text,
     image: imagePath,
     movie: moviePath,
     created_at: new Date()
@@ -72,17 +72,26 @@ exports.createPost = (req, res) => {
 };
 
 exports.updatePost = (req, res) => {
+  const Body = req.body;
+  const imagePath = Body.image;
+  const moviePath = Body.movie;
+  const postId = req.params.id;
+  
   const post = {
-    id: req.params.id,
-    title: req.body.title,
-    body: req.body.text,
-    image: req.body.image,
-    movie: req.body.movie,
+    body: Body.text,
+    image: imagePath,
+    movie: moviePath,
     update_at: new Date()
   };
+  
+  if (!Body.text && !imagePath && !moviePath) {
+    res.status(400).send({
+      message: 'Content cannot be empty',
+    });
+  }
 
   Posts.update(post, {
-    where: { id: id }
+    where: { id: postId }
   })
     .then(num => {
       if (num == 1) {
@@ -91,13 +100,13 @@ exports.updatePost = (req, res) => {
         });
       } else {
         res.send({
-          message: `Cannot update Post with id=${id}. Maybe Post was not found or req.body is empty!`
+          message: `Cannot update Post with id=${postId}. Maybe Post was not found or req.body is empty!`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error updating Post with id=" + id
+        message: "Error updating Post with id=" + postId
       });
     });
 };

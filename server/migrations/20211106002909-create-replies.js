@@ -32,7 +32,7 @@ module.exports = {
       },
       comments_id: {
         type: Sequelize.BIGINT,
-        allowNull: true,
+        allowNull: false,
         references: {
           model: {
             tableName: 'comments',

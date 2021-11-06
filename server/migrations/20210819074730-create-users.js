@@ -23,7 +23,7 @@ module.exports = {
         type: Sequelize.INTEGER.UNSIGNED
       },
       phone: {
-        allowNull: false,
+        allowNull: true,
         unique: true,
         type: Sequelize.STRING
       },
@@ -54,8 +54,8 @@ module.exports = {
       },
       verified_status: {
         allowNull: false,
-        defaultValue: 2,
-        type: Sequelize.INTEGER
+        defaultValue: false,
+        type: Sequelize.BOOLEAN
       },
       created_at: {
         allowNull: false,
