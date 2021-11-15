@@ -26,6 +26,22 @@ app.use(session({
     sameSite: true
   }
 }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser((id, done) => {
+  done(null, id);
+});
+
+passport.deserializeUser((id, done) => {
+  Users.findById(id)
+    .then(user => {
+      done(null, user);
+    })
+    .catch(err => {
+      done(err, null);
+    });
+});
 
 passport.use(new LocalStrategy({
   usernameField: 'email',
@@ -58,13 +74,18 @@ passport.use(new LocalStrategy({
   }
 ));
 
-passport.serializeUser((user, done) => {
-  done(null, user.username);
-});
+exports.getAllUsers = (req, res) => {
+  Users.findAll()
+  .then(users => {
+    res.send(users);
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: err.message || "Some error occurred while retrieving users."
+    });
+  });
+};
 
-passport.deserializeUser((user, done) => {
-  done(null, user);
-});
 
 exports.login = async (req, res) => {
   res.send("Secure response from" + JSON.stringify(req.body));
