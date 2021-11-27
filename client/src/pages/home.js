@@ -7,9 +7,9 @@ export const Home = () => {
     <div>
       <Navbarcomponent />
       <div>
-        <p>Hello World</p>
+        {/* <p>Hello World</p> */}
       </div>
-      <Footercomponent />
+      {/* <Footercomponent /> */}
     </div>
     )
 }

@@ -1,27 +1,28 @@
-import React from 'react';
-import { BrowserRouter, Link } from 'react-router-dom';
-import 'bulma/css/bulma.min.css';
+import * as React from 'react';
+import { Link } from 'react-router-dom';
+
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 
 export const Navbarcomponent = () => {
   return (
-    <div className="container is-max-desktop">
-      <div className="py-3 navbar-brand" >
-        <a className="navbar-item" href="https://bulma.io">
-          <img src="https://bulma.io/images/bulma-logo.png" width="120" height="120" />
-        </a>
-        <div className="navbar-end ml-auto">
-          <div className="navbar-item">
-            <div className="buttons">
-              <a className="button is-info is-expanded is-block">
-                <Link to="/signup" style={{ color: 'white' }}>Sign Up</Link>
-              </a>
-              <a className="button is-light">
-                <Link to="/signin" style={{ color: 'black' }}>Login</Link>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <AppBar color="inherit" position="fixed" >
+      <Toolbar>
+        <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+          News
+        </Typography>
+        <Button color="primary" variant="contained" component={Link} to="/signin">
+          SignIn
+        </Button>
+        <Button color="primary" variant="contained" component={Link} to="/signin">
+          signup
+        </Button>
+      </Toolbar>
+    </AppBar>
   );
-};
+}

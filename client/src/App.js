@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { Home } from './pages/home';
 import { Signin } from './pages/signin';
@@ -11,13 +11,13 @@ import { Notfound } from './pages/error'
 export const App = () => {
   return (
     <BrowserRouter>
-      <Switch>
-        <Route exact path='/' component={Home} />
-        <Route path='/signin' component={Signin} />
-        <Route path='/signup' component={Signup} />
-        <Route path='/posts' component={Posts} />
-        <Route path='*' component={Notfound} />
-      </Switch>
+      <Routes>
+        <Route path='/' element={<Home/>}/>
+        <Route path='/signin' element={<Signin/>} />
+        <Route path='/signup' element={<Signup/>} />
+        <Route path='/posts' element={<Posts/>} />
+        <Route path='*' celement={<Notfound/>} />
+      </Routes>
     </BrowserRouter>
   );
 }
