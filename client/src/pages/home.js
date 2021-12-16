@@ -16,7 +16,7 @@ export const Home = (props) => {
       <div>
         <p>Login Status: {props.loggedInStatus}</p>
         <Signup handleSuccessfulAuthentication={handleSuccessfulAuthentication} />
-        <Login />
+        {/* <Login /> */}
         {/* <p>Hello World</p> */}
       </div>
       {/* <Footercomponent /> */}
