@@ -9,20 +9,23 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 
+import Logo from "../image/test.JPG"
+
 export const Navbarcomponent = () => {
   return (
-    <AppBar color="inherit" position="fixed" >
+    <AppBar color='transparent' position="fixed">
       <Toolbar>
-        <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
-          News
+        {/* <Typography component="img" sx={{ height: 32, margin: 3, ml: 40 }} src={Logo} /> */}
+        <Typography variant="h5" component="div" sx={{ flexGrow: 1, margin: 3, ml: 40 }}>
+          HQL
         </Typography>
-        <Button color="primary" variant="contained" component={Link} to="/signin">
+        <Button color="primary" variant="contained" component={Link} to="/signin" sx={{ margin: 1 }}>
           SignIn
         </Button>
-        <Button color="primary" variant="contained" component={Link} to="/signin">
+        <Button color="primary" variant="contained" component={Link} to="/signup" sx={{ mr: 40 }}>
           signup
         </Button>
       </Toolbar>
-    </AppBar>
+    </AppBar >
   );
 }

@@ -18,7 +18,7 @@ router.get('/', posts_controller.getAllPosts);
 // auth router
 // router.post('/login',auth_controller.login);
 router.get('/login/failed', auth_controller.loginFailed);
-router.get('/logout', auth_controller.logout);
+router.delete('/logout', auth_controller.logout);
 router.post('/signup',auth_controller.signup);
 router.post('/login',passport.authenticate('local',{
   failureRedirect: 'login/',

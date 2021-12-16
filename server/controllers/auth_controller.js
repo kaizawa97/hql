@@ -131,7 +131,9 @@ exports.signup = async (req, res) => {
 
   Users.create(user)
     .then(user => {
-      res.send(user);
+      res.status(200).send({
+        status: 'success'
+      });
     })
     .catch(err => {
       res.status(400).send({

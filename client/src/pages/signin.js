@@ -1,63 +1,53 @@
-import React from 'react';
+import { Button } from '@mui/material';
+import React, { useState } from 'react';
 import { BrowserRouter, Link } from 'react-router-dom';
-import { SingleNavbarcomponent } from '../components/singlenavbar';
-import { SingleFootercomponent } from '../components/singlefooter';
+import axios from 'axios';
 
-// import { useSignin } from '../hooks/useSignin';
+export const Signin = (props) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-export const Signin = () => {
-  // const {
-  //   email,
-  //   password,
-  //   error,
-  //   loading,
-  //   user,
-  //   blanksetEmail,
-  //   blanksetPassword
-  // } = useSignin();
+  const handleSubmit = (e) => {
+    axios.post('http://localhost:5000/api/v1/signin', {
+      user: {
+        email: email,
+        password: password,
+      }
+    },
+      { withCredentials: true }
+    ).then(res => {
+      // if(res.data.status === 'success') {
+      //   props.handleSuccessfulAuthentication(res.data);
+      // }
+      console.log("registration res", res);
+    }).catch(err => {
+      console.log("registration err", err);
+    });
+    e.preventDefault();
+  }
 
   return (
-    <section className="hero is-white is-fullheight">
-      <SingleNavbarcomponent />
-      <div className="hero-body">
-        <div className="container has-text-centered">
-          <div className="column is-4 is-offset-4">
-            <h3 className="title has-text-black">Sign in</h3>
-
-            <form action="" className="box">
-              <div className="field">
-                <div className="control">
-                  <input className="input is-large" type="email" placeholder="Your Email" required />
-                </div>
-              </div>
-
-              <div className="field">
-                <div className="control">
-                  <input className="input is-large" type="password" placeholder="Your Password" required />
-                </div>
-              </div>
-
-              <div className="field">
-                <label className="checkbox">
-                  <input type="checkbox" />
-                  Remember me
-                </label>
-              </div>
-              <button className="button is-block is-info is-large is-fullwidth">
-                Login
-                <i className="fa fa-sign-in" aria-hidden="true" />
-              </button>
-            </form>
-
-            <p className="has-text-grey">
-              <a href="../">Sign Up</a> &nbsp;·&nbsp;
-              <a href="../">Forgot Password</a> &nbsp;·&nbsp;
-              <a href="../">Need Help?</a>
-            </p>
-          </div>
-        </div>
-      </div>
-      <SingleFootercomponent />
-    </section>
+    <div>
+      <h1>Signin</h1>
+      <Link to="/">Home</Link>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          name="email"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          name="password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Button type="submit">Signin</Button>
+      </form>
+    </div>
   );
-};
+}
