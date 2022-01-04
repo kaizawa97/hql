@@ -29,6 +29,11 @@ export const Signup = (props) => {
     e.preventDefault();
   }
 
+  const handleSuccessfulAuthentication = (data) => {
+    props.handleLogin(data);
+    props.history.push("/posts");
+  }
+  
   return (
     <div>
       <h1>Signup</h1>

@@ -15,32 +15,34 @@ const app = express();
 require('dotenv').config();
 app.use(cookieParser());
 
-app.use(session({
+const sessionConfig =
+{
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 7, //7 days
+    maxAge: 1000 * 60 * 60 * 24 * 1, //7 days
     secure: true,
     httpOnly: true,
     sameSite: true
   }
-}));
-app.use(passport.initialize());
-app.use(passport.session());
+};
 
-passport.serializeUser((id, done) => {
-  done(null, id);
+app.use(session(sessionConfig));
+
+passport.serializeUser((user, done) => {
+  done(null, user);
 });
 
-passport.deserializeUser((id, done) => {
-  Users.findById(id)
-    .then(user => {
-      done(null, user);
-    })
-    .catch(err => {
-      done(err, null);
-    });
+passport.deserializeUser((user, done) => {
+  done(null, user);
+  // Users.findById(id)
+  //   .then(user => {
+  //     done(null, user);
+  //   })
+  //   .catch(err => {
+  //     done(err, null);
+  //   });
 });
 
 passport.use(new LocalStrategy({
@@ -76,30 +78,36 @@ passport.use(new LocalStrategy({
 
 exports.getAllUsers = (req, res) => {
   Users.findAll()
-  .then(users => {
-    res.send(users);
-  })
-  .catch(err => {
-    res.status(500).send({
-      message: err.message || "Some error occurred while retrieving users."
+    .then(users => {
+      res.send(users);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving users."
+      });
     });
-  });
 };
 
 
 exports.login = async (req, res) => {
-  res.send("Secure response from" + JSON.stringify(req.body));
-};
-
-exports.loginFailed = (req, res) => {
-  res.status(401).json({
-    message: "Incorrect username or password"
-  })
+  console.log(req.user);
+  res.send(JSON.stringify(req.body));
 };
 
 exports.logout = (req, res) => {
   req.logout();
-  res.redirect('/');
+  res.status(200).status({ status: 'Logout Success' });
+}
+
+exports.isLogined = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  else {
+    res.status(401).send({
+      error: 'User is not authenticated'
+    });
+  }
 }
 
 // id and password 
@@ -168,12 +176,3 @@ exports.googleCallback = (req, res) => {
   });
   res.send("Secure response from" + JSON.stringify(req.body));
 };
-
-exports.isAuthenticated = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  else {
-    res.redirect('/api/v1/login/failed');
-  }
-}

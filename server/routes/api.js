@@ -16,14 +16,12 @@ const files_controller = require('../controllers/files_controller');
 router.get('/', posts_controller.getAllPosts);
 
 // auth router
-// router.post('/login',auth_controller.login);
-router.get('/login/failed', auth_controller.loginFailed);
 router.delete('/logout', auth_controller.logout);
 router.post('/signup',auth_controller.signup);
 router.post('/login',passport.authenticate('local',{
-  failureRedirect: 'login/',
   session: true
 }), auth_controller.login);
+router.get('/isLogined', auth_controller.isLogined);
 
 // OAuth2 router
 router.get('/auth/google',passport.authenticate('google', {

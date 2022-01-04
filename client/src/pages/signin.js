@@ -9,20 +9,19 @@ export const Signin = (props) => {
   const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
-    axios.post('http://localhost:5000/api/v1/signin', {
-      user: {
-        email: email,
-        password: password,
-      }
-    },
-      { withCredentials: true }
-    ).then(res => {
+    const logindata = {
+      email: email,
+      password: password
+    }
+    axios.defaults.headers.post['Content-Type'] = 'application/json';
+    axios.post('http://localhost:5000/api/v1/login', logindata)
+    .then(res => {
       // if(res.data.status === 'success') {
       //   props.handleSuccessfulAuthentication(res.data);
       // }
-      console.log("registration res", res);
+      console.log("registration res", res); //開発時にログを表示
     }).catch(err => {
-      console.log("registration err", err);
+      // console.log("registration err", err);
     });
     e.preventDefault();
   }

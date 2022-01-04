@@ -22,7 +22,7 @@ export const App = () => {
   });
 
   const checkLoginStatus = () => {
-    axios.get('http://localhost:5000/api/v1/logged_in', { withCredentials: true })
+    axios.get('http://localhost:5000/api/v1/isLogined', { withCredentials: true })
       .then(res => {
         if (res.data.logged_in && loggedInStatus === "Not Logged In") {
           setLoggedInStatus("Logged In");
@@ -53,7 +53,7 @@ export const App = () => {
       <Routes>
         <Route path='/' element={<Home handleLogin={handleLogin} loggedInStatus={loggedInStatus} />} />
         <Route path='/signin' element={<Signin />} />
-        <Route path='/signup' element={<Signup />} />
+        <Route path='/signup' element={<Signup handleLogin={handleLogin}/>} />
         <Route path='/posts' element={<Posts />} />
         <Route path='*' celement={<Notfound />} />
       </Routes>
