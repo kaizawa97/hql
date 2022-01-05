@@ -22,7 +22,7 @@ export const App = () => {
   });
 
   const checkLoginStatus = () => {
-    axios.get('http://localhost:5000/api/v1/isLogined', { withCredentials: true })
+    axios.get('http://localhost:5000/api/v1/isLogined', {withCredentials: true})
       .then(res => {
         if (res.data.logged_in && loggedInStatus === "Not Logged In") {
           setLoggedInStatus("Logged In");

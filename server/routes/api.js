@@ -46,7 +46,7 @@ router.post('/posts', posts_controller.createPost);
 router.put('/posts/:id(\\d+)', posts_controller.updatePost);
 router.delete('/posts/:id(\\d+)', posts_controller.deletePost);
 
-// // search router
+// search router
 router.get('/search', posts_controller.searchbyword);
 
 // comments router
@@ -67,7 +67,7 @@ router.post('/replies', replies_controller.createReply);
 router.put('/replies/:replyId(\\d+)', replies_controller.updateReply);
 router.delete('replies/:replyId(\\d+)', replies_controller.deleteReply);
 
-// // images and movies router
+//  images and movies router
 // router.get('/images', files_controller.getImageById);
 // router.get('/movies:id(\\d+)', controller.getMovieById);
 // router.post('/upload', files_controller.image);

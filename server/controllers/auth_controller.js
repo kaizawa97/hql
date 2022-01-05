@@ -6,44 +6,13 @@ const shortid = require('shortid');
 const express = require('express');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
-const session = require('express-session');
-const cookieParser = require('cookie-parser');
+// const cookieParser = require('cookie-parser');
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth2').Strategy;
 const app = express();
 
 require('dotenv').config();
-app.use(cookieParser());
-
-const sessionConfig =
-{
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 1, //7 days
-    secure: true,
-    httpOnly: true,
-    sameSite: true
-  }
-};
-
-app.use(session(sessionConfig));
-
-passport.serializeUser((user, done) => {
-  done(null, user);
-});
-
-passport.deserializeUser((user, done) => {
-  done(null, user);
-  // Users.findById(id)
-  //   .then(user => {
-  //     done(null, user);
-  //   })
-  //   .catch(err => {
-  //     done(err, null);
-  //   });
-});
+// app.use(cookieParser());
 
 passport.use(new LocalStrategy({
   usernameField: 'email',
@@ -76,6 +45,20 @@ passport.use(new LocalStrategy({
   }
 ));
 
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  Users.findById(id)
+    .then(user => {
+      done(null, user);
+    })
+    .catch(err => {
+      done(err, null);
+    });
+});
+
 exports.getAllUsers = (req, res) => {
   Users.findAll()
     .then(users => {
@@ -90,7 +73,7 @@ exports.getAllUsers = (req, res) => {
 
 
 exports.login = async (req, res) => {
-  console.log(req.user);
+  console.log(req.user.id);
   res.send(JSON.stringify(req.body));
 };
 

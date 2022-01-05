@@ -14,14 +14,16 @@ export const Signin = (props) => {
       password: password
     }
     axios.defaults.headers.post['Content-Type'] = 'application/json';
-    axios.post('http://localhost:5000/api/v1/login', logindata)
+    axios.post('http://localhost:5000/api/v1/login', logindata, {withCredentials: true})
     .then(res => {
+      // ログイン成功
       // if(res.data.status === 'success') {
       //   props.handleSuccessfulAuthentication(res.data);
       // }
       console.log("registration res", res); //開発時にログを表示
     }).catch(err => {
-      // console.log("registration err", err);
+      // ログイン失敗
+      console.log("registration err", err);
     });
     e.preventDefault();
   }
