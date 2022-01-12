@@ -1,10 +1,10 @@
 import React from 'react'
 
-function header() {
+export const Header = () => {
   return (
     <div className='header'>
+      <div className='header-left'>
+      </div>
     </div>
   )
 }
-
-export default header
