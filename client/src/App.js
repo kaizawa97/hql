@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import axios from 'axios';
 
-import { Home } from './pages/home';
+import Home from './pages/home';
 // import { Signin } from './pages/signin';
 // import { Signup } from './pages/signup';
 // import { Posts } from './pages/posts';
-import { Notfound } from './pages/error'
+import Notfound from './pages/error'
 // import { Profile } from './pages/profile';
 
 function App () {
