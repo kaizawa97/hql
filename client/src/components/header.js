@@ -6,6 +6,7 @@ import HeaderOptions from './headeroptions';
 import SearchIcon from '@mui/icons-material/Search';
 import HomeIcon from '@mui/icons-material/Home';
 import MessageIcon from '@mui/icons-material/Message';
+import AvatarIcon from '@mui/material/Avatar';
 
 const HeaderMain = styled.div`
   display: flex;
@@ -58,9 +59,9 @@ function Header() {
           </HeaderSearch>
         </HeaderLeft>
       <HeaderRight>
-        <HeaderOptions Icon={HomeIcon} Title='Home' />
-        <HeaderOptions Icon={MessageIcon} Title='Message' />
-        <HeaderOptions Avator='https://pbs.twimg.com/profile_images/1393492355764817927/giDqHkcw_400x400.jpg' Title='Profile' />
+        <HeaderOptions Icon={HomeIcon} title='Home' />
+        <HeaderOptions Icon={MessageIcon} title='Message' />
+        <HeaderOptions Icon={AvatarIcon} title='Profile' />
       </HeaderRight>
       </HeaderMain>
     </div>

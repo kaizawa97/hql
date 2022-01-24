@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-// import { Avatar } from '@material-ui/core'
+
 
 const Options = styled.div`
   display: flex;
@@ -14,18 +14,23 @@ const Options = styled.div`
   }
 `;
 
-const title = styled.h3`
+const IconOption = styled.div`
+  object-ft: contain;
+  height: 25px !important;
+  width: 25px !important;
+`;
+
+const Title = styled.h3`
   font-size: 12px;
   font-weight: 400;
 `;
 
-function HeaderOptions({ avator, Icon, Title }) {
+function HeaderOptions({ Avator, Icon, title }) {
   return (
     <div>
       <Options>
-        {Icon && <Icon />}
-        {avator && <Avator />}
-        <title>{Title}</title>
+        <IconOption>{Icon && <Icon />}</IconOption>
+        <Title>{title}</Title>
       </Options>
     </div>
   )
