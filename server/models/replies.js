@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class posts extends Model {
+  class replies extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,21 +11,21 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      posts.belongsTo(models.users, {
+      replies.belongsTo(models.users, {
         foreignKey: 'user_id'
       });
-      posts.hasMany(models.comments, {
+      replies.belongsTo(models.posts, {
         foreignKey: 'post_id'
       });
-      posts.hasMany(models.replies, {
-        foreignKey: 'post_id'
+      replies.belongsTo(models.comments, {
+        foreignKey: 'comments_id'
       });
-      posts.hasMany(models.likes, {
-        foreignKey: 'post_id'
+      replies.hasMany(models.likes, {
+        foreignKey: 'replies_id'
       });
     }
   };
-  posts.init({
+  replies.init({
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -34,15 +34,49 @@ module.exports = (sequelize, DataTypes) => {
     },
     user_id: {
       type: DataTypes.BIGINT,
+      allowNull: false,
+      references: {
+        model: 'users',
+        key: 'id'
+      },
+      onUpdate: 'cascade',
+      onDelete: 'cascade'
+    },
+    post_id: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
       references: {
         model: {
-          tableName: 'users',
+          tableName: 'posts',
           key: 'id'
         },
         onDelete: 'cascade',
         onUpdate: 'cascade'
       },
+    },
+    comments_id: {
+      type: DataTypes.BIGINT,
       allowNull: false,
+      references: {
+        model: {
+          tableName: 'comments',
+          key: 'id'
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
+      },
+    },
+    replies_id: {
+      type: DataTypes.BIGINT,
+      allowNull: true,
+      references: {
+        model: {
+          tableName: 'replies',
+          key: 'id'
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
+      },
     },
     body: {
       type: DataTypes.TEXT,
@@ -65,8 +99,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'posts',
+    modelName: 'replies',
     underscored: true,
   });
-  return posts;
+  return replies;
 };

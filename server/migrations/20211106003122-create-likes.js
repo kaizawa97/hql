@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('comments', {
+    await queryInterface.createTable('likes', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -20,7 +20,7 @@ module.exports = {
       },
       post_id: {
         type: Sequelize.BIGINT,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: {
             tableName: 'posts',
@@ -30,23 +30,31 @@ module.exports = {
           onUpdate: 'cascade'
         },
       },
-      body: {
-        allowNull: false,
-        type: Sequelize.TEXT
-      },
-      image: {
+      comments_id: {
+        type: Sequelize.BIGINT,
         allowNull: true,
-        type: Sequelize.STRING
+        references: {
+          model: {
+            tableName: 'comments',
+            key: 'id'
+          },
+          onDelete: 'cascade',
+          onUpdate: 'cascade'
+        },
       },
-      movie: {
+      replies_id: {
+        type: Sequelize.BIGINT,
         allowNull: true,
-        type: Sequelize.STRING
+        references: {
+          model: {
+            tableName: 'replies',
+            key: 'id'
+          },
+          onDelete: 'cascade',
+          onUpdate: 'cascade'
+        },
       },
       created_at: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
@@ -57,6 +65,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('comments');
+    await queryInterface.dropTable('likes');
   }
 };

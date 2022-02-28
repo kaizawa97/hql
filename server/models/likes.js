@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class comments extends Model {
+  class likes extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,21 +11,21 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      comments.belongsTo(models.users, {
+      likes.belongsTo(models.users, {
         foreignKey: 'user_id'
       });
-      comments.belongsTo(models.posts, {
-        foreignKey: 'post_id'
+      likes.belongsTo(models.posts, {
+        foreignKey: 'likes_id'
       });
-      comments.hasMany(models.replies, {
+      likes.belongsTo(models.comments, {
         foreignKey: 'comments_id'
       });
-      comments.hasMany(models.likes, {
-        foreignKey: 'comments_id'
+      likes.belongsTo(models.replies, {
+        foreignKey: 'replies_id'
       });
     }
   };
-  comments.init({
+  likes.init({
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -39,39 +39,53 @@ module.exports = (sequelize, DataTypes) => {
         model: 'users',
         key: 'id'
       },
-      onUpdate: 'cascode',
+      onUpdate: 'cascade',
       onDelete: 'cascade'
     },
     post_id: {
       type: DataTypes.BIGINT,
-      allowNull: false,
+      allowNull: true,
       references: {
-        model: 'posts',
-        key: 'id'
+        model: {
+          tableName: 'posts',
+          key: 'id'
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
       },
-      onDelete: 'cascade',
-      onUpdate: 'cascade'
     },
-    body: {
-      type: DataTypes.TEXT,
-      allowNull: false
-    },
-    image: {
+    comments_id: {
+      type: DataTypes.BIGINT,
       allowNull: true,
-      type: DataTypes.STRING
+      references: {
+        model: {
+          tableName: 'comments',
+          key: 'id'
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
+      },
     },
-    movie: {
+    replies_id: {
+      type: DataTypes.BIGINT,
       allowNull: true,
-      type: DataTypes.STRING
+      references: {
+        model: {
+          tableName: 'replies',
+          key: 'id'
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
+      },
     },
     deleted_at: {
-      allowNull: true,
-      type: DataTypes.DATE
+      type: DataTypes.DATE,
+      allowNull: true
     }
   }, {
     sequelize,
-    modelName: 'comments',
+    modelName: 'likes',
     underscored: true,
   });
-  return comments;
+  return likes;
 };

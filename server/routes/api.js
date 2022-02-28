@@ -4,14 +4,30 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 
-const users_controller = require('../controllers/users_controller');
+const auth_controller = require('../controllers/auth_controller');
+const preusers_controller = require('../controllers/preusers_controller');
 const posts_controller = require('../controllers/posts_controller');
 const comments_controller = require('../controllers/comments_controller');
+const replies_controller = require('../controllers/replies_controller');
+const likes_controller = require('../controllers/likes_controller');
 const files_controller = require('../controllers/files_controller');
-const auth_controller = require('../controllers/auth_controller');
 
 // home router
-// router.get('/', posts_controller.index);
+router.get('/', posts_controller.getAllPosts);
+
+// auth router
+router.delete('/logout', auth_controller.logout);
+router.post('/signup',auth_controller.signup);
+router.post('/login',passport.authenticate('local',{
+  session: true
+}), auth_controller.login);
+router.get('/isLogined', auth_controller.isLogined);
+
+// OAuth2 router
+router.get('/auth/google',passport.authenticate('google', {
+  scope: ['profile', 'email']
+}),auth_controller.googleLogin);
+router.get('/auth/google/callback',auth_controller.googleCallback);
 
 // profile router
 // router.get('/profile/:name(\\w+)', users_controller.getProfile);
@@ -22,46 +38,36 @@ const auth_controller = require('../controllers/auth_controller');
 // router.put('/profile/:name(\\w+)', users_controller.updateProfile);
 // router.delete('/profile/:name(\\w+)', users_controller.deleteProfile);
 
-// user auth router
-router.post('/login', passport.authenticate('local',{session: false}),auth_controller.login);
-router.get('/logout', auth_controller.logout);
-router.post('/signup',auth_controller.signup);
-
-// OAuth2 router
-router.get('/auth/google',auth_controller.googleLogin);
-router.get('/auth/google/callback',auth_controller.googleCallback);
-
-// // users router
-router.get('/users', users_controller.getAllUsers);
-router.post('/users', users_controller.createUser);
-// router.get('/users/:name(\\w+)', controller.getUserByName);
-
-// // search router
-router.get('/search', posts_controller.searchbyword);
-
 // posts router
-router.get('/posts', auth_controller.isAuthenticated, posts_controller.getAllPosts);
-router.get('/posts/:id(\\d+)', posts_controller.getPostById); //正規表現でuuidが取得できません
+// router.get('/posts', auth_controller.isAuthenticated, posts_controller.getAllPosts); //認証例
+router.get('/posts', posts_controller.getAllPosts);
+router.get('/posts/:id(\\d+)', posts_controller.getPostById); 
 router.post('/posts', posts_controller.createPost);
 router.put('/posts/:id(\\d+)', posts_controller.updatePost);
 router.delete('/posts/:id(\\d+)', posts_controller.deletePost);
-// router.get('/posts/:id(\\d+)/likes',posts_controller.getAllLikesByPostId);
-// router.get('/posts/:id(\\d+)/likescount',posts_controller.getLikesCountByPostId);
-// router.post('/posts/:id(\\d+)/likes',posts_controller.createLike);
-// router.delete('/posts/:id(\\d+)/likes/:likeId(\\d+)',posts_controller.deleteLike);
+
+// search router
+router.get('/search', posts_controller.searchbyword);
 
 // comments router
-router.get('/posts/:id(\\d+)/comments', comments_controller.getAllCommentsByPostId);
-router.get('/posts/:id(\\d+)/comments/:commentId(\\d+)', comments_controller.getCommentByPostId);
-router.get('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies', comments_controller.getAllRepliesByCommentId);
-router.get('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies/:replyId(\\d+)', comments_controller.getReplyByCommentId);
-router.post('/posts/:id(\\d+)/comments', comments_controller.createComment);
-router.post('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies', comments_controller.createReply);
-router.delete('/posts/:id(\\d+)/comments/:commentId(\\d+)', comments_controller.deleteComment);
-router.delete('/posts/:id(\\d+)/comments/:commentId(\\d+)/replies/:replyId(\\d+)', comments_controller.deleteReply);
+router.get('/comments/:postId(\\d+)', comments_controller.getAllCommentsByPostId);
+router.post('/comments', comments_controller.createComment);
+router.put('/comments/:commentId(\\d+)', comments_controller.updateComment);
+router.delete('/comments/:commentId(\\d+)', comments_controller.deleteComment);
 
+// likes router
+// router.get('/likes/:postId(\\d+)',likes_controller.getAllLikesByPostId);
+// router.get('/likes/likescount/:postId(\\d+)',likes_controller.getLikesCountByPostId);
+// router.post('/likes',likes_controller.createLike);
+// router.delete('/likes/:likeId(\\d+)',likes_controller.deleteLike);
 
-// // images and movies router
+// replies router comment階層以下の事を指す
+router.get('/replies/:commentId(\\d+)', replies_controller.getAllRepliesByCommentId);
+router.post('/replies', replies_controller.createReply);
+router.put('/replies/:replyId(\\d+)', replies_controller.updateReply);
+router.delete('replies/:replyId(\\d+)', replies_controller.deleteReply);
+
+//  images and movies router
 // router.get('/images', files_controller.getImageById);
 // router.get('/movies:id(\\d+)', controller.getMovieById);
 // router.post('/upload', files_controller.image);

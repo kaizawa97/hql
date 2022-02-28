@@ -1,93 +1,112 @@
 const models = require('../models');
 const Users = models.users;
 const Op = models.Op;
+const shortid = require('shortid');
 
 const express = require('express');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
-const session = require('express-session');
-const cookieParser = require('cookie-parser');
+// const cookieParser = require('cookie-parser');
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth2').Strategy;
 const app = express();
 
 require('dotenv').config();
-app.use(cookieParser());
+// app.use(cookieParser());
 
-app.use(session({
-  secret: 'hello chobbi',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 7, //7 days
-    secure: true,
-    httpOnly: true,
-    sameSite: true
-  }
-}));
-app.use(passport.initialize());
-app.use(passport.session());
-
-passport.serializeUser(function(user,done){
-  console.log('serializeUser');
-  done(null,user);
-});
-
-passport.deserializeUser(function(user,done){
-  console.log('deserializeUser');
-  const user = Users.findOne({
-    where: {
-      username:username
-    }
-  });
-  done(null,user);
-});
-
-passport.use(new LocalStrategy({ 
+passport.use(new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password'
 },
-  async function(email, password, done, err) {
+  async function (email, password, done, err) {
+    if (email === '' || password === '') {
+      return done(null, false, {
+        message: 'Email or password is empty'
+      });
+    } else if (err) {
+      return done(err);
+    }
     const user = await Users.findOne({
       where: {
-        email: email
+        email: email // email found
       }
     });
-    if (err) {return done(err);}
     if (!user) {
-      return done(null, false);
+      return done(null, false, {
+        message: 'Incorrect username or password'
+      });
+    } else if (await bcrypt.compare(password, user.password)) {
+      return done(null, user);
+    } else {
+      return done(null, false, {
+        message: 'Incorrect username or password'
+      });
     }
-    if (!await bcrypt.compare(password, user.password)) {
-      return done(null, false);
-    }
-    return done(null, user);
   }
 ));
 
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  Users.findById(id)
+    .then(user => {
+      done(null, user);
+    })
+    .catch(err => {
+      done(err, null);
+    });
+});
+
+exports.getAllUsers = (req, res) => {
+  Users.findAll()
+    .then(users => {
+      res.send(users);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving users."
+      });
+    });
+};
+
+
 exports.login = async (req, res) => {
- passport.authenticate('local',{session: true})
- res.send("Secure response from" + JSON.stringify(req.body));
+  console.log(req.user.id);
+  res.send(JSON.stringify(req.body));
 };
 
 exports.logout = (req, res) => {
   req.logout();
-  res.redirect('/');
+  res.status(200).status({ status: 'Logout Success' });
+}
+
+exports.isLogined = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  else {
+    res.status(401).send({
+      error: 'User is not authenticated'
+    });
+  }
 }
 
 // id and password 
 exports.signup = async (req, res) => {
   const body = req.body;
-  if (!(body.username && body.full_name && body.age && body.email && body.password && body.country)) {
-    return res.status(400).send({
+  if (!(body.username || body.full_name || body.age || body.email || body.password || body.country)) {
+    return res.status(400).json({
       error: 'Missing required fields'
     });
   }
   if (body.password.length < 8) {
-    return res.status(400).send({
+    return res.status(400).json({
       error: 'Password must be at least 8 characters long'
     });
   }
-  const salt = await bcrypt.genSalt(11);
+  const salt = await bcrypt.genSalt(10);
   const passwd = await bcrypt.hash(body.password, salt);
 
   const user = {
@@ -96,15 +115,16 @@ exports.signup = async (req, res) => {
     age: body.age,
     email: body.email,
     password: passwd,
-    company: req.body.company,
-    country: req.body.country,
-    auth_flag: req.body.auth_flag,
+    company: body.company,
+    country: body.country,
     created_at: new Date(),
   };
 
   Users.create(user)
     .then(user => {
-      res.send(user);
+      res.status(200).send({
+        status: 'success'
+      });
     })
     .catch(err => {
       res.status(400).send({
@@ -130,9 +150,6 @@ passport.use(new GoogleStrategy({
 }));
 
 exports.googleLogin = (req, res) => {
-  passport.authenticate('google', {
-    scope: ['profile', 'email']
-  });
   res.send("Secure response from" + JSON.stringify(req.body));
 };
 
@@ -142,12 +159,3 @@ exports.googleCallback = (req, res) => {
   });
   res.send("Secure response from" + JSON.stringify(req.body));
 };
-
-exports.isAuthenticated = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  else {
-    res.redirect('/api/v1/login');
-  }
-}

@@ -52,11 +52,7 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING
       },
-      email_verified_at: {
-        allowNull: true,
-        type: Sequelize.DATE
-      },
-      auth_flag: {
+      verified_status: {
         allowNull: false,
         defaultValue: false,
         type: Sequelize.BOOLEAN
@@ -67,6 +63,10 @@ module.exports = {
       },
       updated_at: {
         allowNull: false,
+        type: Sequelize.DATE
+      },
+      deleted_at: {
+        allowNull: true,
         type: Sequelize.DATE
       }
     });

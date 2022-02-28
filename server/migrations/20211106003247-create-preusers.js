@@ -1,42 +1,33 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('posts', {
+    await queryInterface.createTable('preusers', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.BIGINT
       },
-      user_id: {
-        type: Sequelize.BIGINT,
-        references: {
-          model: {
-            tableName: 'users',
-            key: 'id'
-          },
-          onDelete: 'cascade',
-          onUpdate: 'cascade'
-        },
+      email: {
         allowNull: false,
-      },
-      body: {
-        allowNull: false,
-        type: Sequelize.TEXT
-      },
-      image: {
-        allowNull: true,
+        unique: true,
         type: Sequelize.STRING
       },
-      movie: {
-        allowNull: true,
+      urltoken: {
+        allowNull: false,
         type: Sequelize.STRING
+      },
+      token_flag: {
+        allowNull: false,
+        defaultValue: 0,
+        type: Sequelize.INTEGER
+      },
+      auth_flag: {
+        allowNull: false,
+        defaultValue: false,
+        type: Sequelize.BOOLEAN
       },
       created_at: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
@@ -47,6 +38,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('posts');
+    await queryInterface.dropTable('preusers');
   }
 };
