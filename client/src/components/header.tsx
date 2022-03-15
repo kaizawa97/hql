@@ -27,10 +27,10 @@ export const Header = ({ authState = false }: Props) => {
             <Spacer />
             <Box>
               <ButtonGroup spacing={4}>
-                <Button colorScheme="blue">
+                <Button colorScheme="blue" as={Link} to="/signin">
                   Signin
                 </Button>
-                <Button colorScheme="blue">
+                <Button colorScheme="blue" as={Link} to="/signup">
                   Signup
                 </Button>
               </ButtonGroup>
