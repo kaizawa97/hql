@@ -119,4 +119,7 @@ dist
 .pnp.*
 
 # test file
-.public
+public/
+
+# memo directory
+memo/
