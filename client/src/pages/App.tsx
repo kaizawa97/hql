@@ -10,13 +10,15 @@ import { Signup } from './signup';
 // import { ForgotPassword } from './fogotpassword';
 // import { Posts } from './posts';
 // import { Profile } from './profile';
+import { NotSigned } from './notsigned';
 import { Notfound } from './error';
 
 export const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Home />} />
+        <Route path='/' element={<NotSigned />} />
+        <Route path='/home' element={<Home />} />
         <Route path='/signin' element={<Signin />} />
         <Route path='/signup' element={<Signup />} />
         {/* <Route path='/signup/email' element={<SignupEmail />} />
