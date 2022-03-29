@@ -1,29 +1,37 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import { Link as NavLink } from 'react-router-dom';
 import { Footer } from "../components/footer";
 import { useForm } from "react-hook-form";
 import {
   Flex, Box, Button, Spacer, Container, Heading, Text,
   Stack, Input, Checkbox, Link, useColorModeValue,
-  FormErrorMessage, FormControl, FormLabel,
+  FormErrorMessage, FormControl, FormLabel, Alert, AlertIcon
 } from "@chakra-ui/react";
+import { useSignin } from "../hooks/useSignin";
 
 export const Signin = () => {
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
-    reset
   } = useForm();
 
+  const { error, handleSignin } = useSignin();
+  const [loginError, setLoginError] = useState('');
+
   function onSubmit(values: any) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        reset();
-        alert(JSON.stringify(values, null, 2))
-      }, 3000)
-    })
+    handleSignin(values.email, values.password);
+    if (error !== '' || error === null) {
+      setLoginError('Incorrect username or password');
+    }
   }
+
+  const errorAlert = () => {
+    <Alert status='error'>
+      <AlertIcon />
+      {loginError}
+    </Alert>
+  };
 
   return (
     <div>
@@ -128,8 +136,8 @@ export const Signin = () => {
             </Stack>
           </Box>
         </Stack>
-      </Flex>
+      </Flex >
       <Footer />
-    </div>
+    </div >
   );
 };

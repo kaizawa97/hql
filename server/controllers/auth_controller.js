@@ -73,7 +73,6 @@ exports.getAllUsers = (req, res) => {
 
 
 exports.login = async (req, res) => {
-  console.log(req.user.id);
   res.send(JSON.stringify(req.body));
 };
 
