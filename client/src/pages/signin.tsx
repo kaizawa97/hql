@@ -1,9 +1,30 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link } from 'react-router-dom';
+import { Link as NavLink } from 'react-router-dom';
 import { Footer } from "../components/footer";
-import { Flex, Box, Button, Spacer, Container } from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
+import {
+  Flex, Box, Button, Spacer, Container, Heading, Text,
+  Stack, Input, Checkbox, Link, useColorModeValue,
+  FormErrorMessage, FormControl, FormLabel,
+} from "@chakra-ui/react";
 
 export const Signin = () => {
+  const {
+    handleSubmit,
+    register,
+    formState: { errors, isSubmitting },
+    reset
+  } = useForm();
+
+  function onSubmit(values: any) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        reset();
+        alert(JSON.stringify(values, null, 2))
+      }, 3000)
+    })
+  }
+
   return (
     <div>
       <Flex bg="White"
@@ -16,21 +37,98 @@ export const Signin = () => {
         px={8}>
         <Container as={Flex} maxW={'7xl'} align={'center'}>
           <Box>
-            <Button as={Link} to="/">
+            <Button as={NavLink} to="/">
               <img src="../logo.png" alt="HQL" />
             </Button>
           </Box>
           <Spacer />
           <Box>
-            <Button colorScheme="blue" as={Link} to="/signup">
+            <Button colorScheme="blue" as={NavLink} to="/signup">
               Signup
             </Button>
           </Box>
         </Container>
       </Flex>
-      <Box p={8} display={{ md: 'flex' }}>
-
-      </Box>
+      <Flex
+        minH={'80vh'}
+        align={'center'}
+        justify={'center'}
+        bg={useColorModeValue('gray.50', 'gray.800')}
+      >
+        <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+          <Stack align={'center'}>
+            <Heading fontSize={'4xl'}>Sign in to your account</Heading>
+            <Text fontSize={'lg'} color={'gray.600'}>
+              Email Login
+            </Text>
+          </Stack>
+          <Box
+            rounded={'lg'}
+            bg={useColorModeValue('white', 'gray.700')}
+            boxShadow={'lg'}
+            p={8}>
+            <Stack spacing={4}>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <Stack spacing={4}>
+                  <FormControl id="email" isInvalid={errors.email ? true : false}>
+                    <FormLabel htmlFor="email">Email address*</FormLabel>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="Enter your email"
+                      {...register("email", {
+                        required: 'Email is required',
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                          message: "Invalid email address",
+                        },
+                      })}
+                    />
+                    <FormErrorMessage>
+                      {errors.email && errors.email.message}
+                    </FormErrorMessage>
+                  </FormControl>
+                  <FormControl id="password" isInvalid={errors.password ? true : false}>
+                    <FormLabel htmlFor="password">Password*</FormLabel>
+                    <Input
+                      id="password"
+                      type="password"
+                      placeholder="Enter your Password"
+                      {...register('password', {
+                        required: 'Password is required',
+                        minLength: { value: 8, message: 'Minimum length should be 8' },
+                      })}
+                    />
+                    <FormErrorMessage>
+                      {errors.password && errors.password.message}
+                    </FormErrorMessage>
+                  </FormControl>
+                  <Stack spacing={10}>
+                    <Stack
+                      direction={{ base: 'column', sm: 'row' }}
+                      align={'start'}
+                      justify={'space-between'}>
+                      <Checkbox>Remember me</Checkbox>
+                      <Link color={'blue.400'} as={NavLink} to="/forgotpassword"> Forgot password?</Link>
+                    </Stack>
+                    <Button
+                      bg={'blue.400'}
+                      color={'white'}
+                      _hover={{
+                        bg: 'blue.500',
+                      }}
+                      isLoading={isSubmitting}
+                      type="submit"
+                    >
+                      Sign in
+                    </Button>
+                  </Stack>
+                </Stack>
+              </form>
+            </Stack>
+          </Box>
+        </Stack>
+      </Flex>
       <Footer />
     </div>
   );
