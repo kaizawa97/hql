@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link as NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Footer } from "../components/footer";
 import { useForm } from "react-hook-form";
 import {
@@ -16,13 +17,20 @@ export const Signin = () => {
     register,
     formState: { errors },
   } = useForm();
-
+  const navigate = useNavigate();
   const { loading, signinError, handleSignin } = useSignin();
   const { authenticated, authError, handleAuthCheck } = useAuthCheck();
 
   const onSubmit = (values: any) => {
     handleSignin(values.email, values.password);
   }
+
+  useEffect(() => {
+    handleAuthCheck();
+    if (authenticated === true) {
+      navigate("/home");
+    }
+  }, []);
 
   return (
     <div>
