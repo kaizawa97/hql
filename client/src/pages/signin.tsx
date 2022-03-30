@@ -13,25 +13,14 @@ export const Signin = () => {
   const {
     handleSubmit,
     register,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm();
 
-  const { error, handleSignin } = useSignin();
-  const [loginError, setLoginError] = useState('');
+  const { loading, error, handleSignin } = useSignin();
 
-  function onSubmit(values: any) {
+  const onSubmit = (values: any) => {
     handleSignin(values.email, values.password);
-    if (error !== '' || error === null) {
-      setLoginError('Incorrect username or password');
-    }
   }
-
-  const errorAlert = () => {
-    <Alert status='error'>
-      <AlertIcon />
-      {loginError}
-    </Alert>
-  };
 
   return (
     <div>
@@ -119,13 +108,19 @@ export const Signin = () => {
                       <Checkbox>Remember me</Checkbox>
                       <Link color={'blue.400'} as={NavLink} to="/forgotpassword"> Forgot password?</Link>
                     </Stack>
+                    {error ?
+                      <Alert status='error'>
+                        <AlertIcon />
+                        {error}
+                      </Alert>
+                      : null}
                     <Button
                       bg={'blue.400'}
                       color={'white'}
                       _hover={{
                         bg: 'blue.500',
                       }}
-                      isLoading={isSubmitting}
+                      isLoading={loading}
                       type="submit"
                     >
                       Sign in

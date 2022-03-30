@@ -4,10 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 export const useSignin = () => {
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSignin = (email: string, password: string) => {
+    setLoading(true);
     axios.post('http://localhost:5000/api/v1/login',
       {
         email: email,
@@ -22,13 +24,20 @@ export const useSignin = () => {
       }
       else {
         setError(res.data.message);
+        setLoading(false);
       }
     }).catch(err => {
-      setError(err.message);
+      if (err.response.status === 401) {
+        setError('Invalid email or password');
+      } else {
+        setError('Please contact the administrator');
+      }
+      setLoading(false);
     });
   };
 
   return {
+    loading,
     error,
     handleSignin
   };
