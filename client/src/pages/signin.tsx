@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link as NavLink } from 'react-router-dom';
 import { Footer } from "../components/footer";
 import { useForm } from "react-hook-form";
@@ -8,6 +8,7 @@ import {
   FormErrorMessage, FormControl, FormLabel, Alert, AlertIcon
 } from "@chakra-ui/react";
 import { useSignin } from "../hooks/useSignin";
+import { useAuthCheck } from "../hooks/useAuthCheck";
 
 export const Signin = () => {
   const {
@@ -16,7 +17,8 @@ export const Signin = () => {
     formState: { errors },
   } = useForm();
 
-  const { loading, error, handleSignin } = useSignin();
+  const { loading, signinError, handleSignin } = useSignin();
+  const { authenticated, authError, handleAuthCheck } = useAuthCheck();
 
   const onSubmit = (values: any) => {
     handleSignin(values.email, values.password);
@@ -108,10 +110,10 @@ export const Signin = () => {
                       <Checkbox>Remember me</Checkbox>
                       <Link color={'blue.400'} as={NavLink} to="/forgotpassword"> Forgot password?</Link>
                     </Stack>
-                    {error ?
+                    {signinError ?
                       <Alert status='error'>
                         <AlertIcon />
-                        {error}
+                        {signinError}
                       </Alert>
                       : null}
                     <Button

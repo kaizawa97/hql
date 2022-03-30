@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
 
 export const useSignin = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [signinError, setSigninError] = useState('');
   const navigate = useNavigate();
 
   const handleSignin = (email: string, password: string) => {
@@ -23,14 +23,14 @@ export const useSignin = () => {
         navigate('/home');
       }
       else {
-        setError(res.data.message);
+        setSigninError(res.data.message);
         setLoading(false);
       }
     }).catch(err => {
       if (err.response.status === 401) {
-        setError('Invalid email or password');
+        setSigninError('Invalid email or password');
       } else {
-        setError('Please contact the administrator');
+        setSigninError('Please contact the administrator');
       }
       setLoading(false);
     });
@@ -38,7 +38,7 @@ export const useSignin = () => {
 
   return {
     loading,
-    error,
+    signinError,
     handleSignin
   };
 };
