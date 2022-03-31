@@ -18,9 +18,9 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'https://localhost:3000',
   credentials: true,
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
 }));
 
 const sessionConfig =
@@ -30,25 +30,24 @@ const sessionConfig =
   saveUninitialized: false,
   cookie: {
     maxAge: 1000 * 60 * 60 * 24 * 1, //7 days
-    secure: true,
     httpOnly: true,
-    sameSite: true
+    sameSite: true,
+    secure: false, // if this site is https, set true
   }
 };
-
 app.use(session(sessionConfig));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/api/v1/',api);
-app.use('/public',express.static(path.join(__dirname,'../public')));
+app.use('/api/v1/', api);
+app.use('/public', express.static(path.join(__dirname, '../public')));
 
 app.get('/', (req, res) => {
-  res.json({messeage: "Hello World!"});
+  res.json({ messeage: "Hello World!" });
 });
 
 app.use(function (req, res, next) {
-  res.status(404).send({url: req.originalUrl + ' not found'})
+  res.status(404).send({ url: req.originalUrl + ' not found' })
 });
 
 app.listen(port, () => {
