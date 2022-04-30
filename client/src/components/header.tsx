@@ -17,11 +17,11 @@ export const Header = ({ authState = false }: Props) => {
         <Flex bg="White"
           w="100%"
           as="header"
-          position="sticky"
+          position="relative"
           align="center"
           shadow="sm"
           py={3}
-          px={8}>
+          >
           <Container as={Flex} maxW={'7xl'} align={'center'}>
             <HStack>
               <Box>
@@ -40,6 +40,9 @@ export const Header = ({ authState = false }: Props) => {
               <ButtonGroup spacing={4}>
                 <Button as={Link} to={"/home"} aria-label='Home Button' leftIcon={<InfoIcon />} >
                   Home
+                </Button>
+                <Button as={Link} to={"/chat"} aria-label='Home Button' leftIcon={<InfoIcon />} >
+                  Chat
                 </Button>
                 <Button as={Link} to={"/notification"} aria-label='Home Button' leftIcon={<InfoIcon />} >
                   Notification
