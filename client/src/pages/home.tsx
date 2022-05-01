@@ -72,13 +72,14 @@ export const Home = () => {
           </Box>
         </VStack>
         <Box as={Container} flexDir={'column'} maxW={'xl'} rounded={'md'}>
-          <Box as='form' bg={'white'} shadow='md' rounded={'md'} mb={8} onSubmit={handleSubmit}>
+          <Box as='form' bg={'white'} shadow='md' rounded={'md'} mb={8} onSubmit={handleSubmit} >
             <Textarea
               id="textarea"
               onChange={handleInputChange}
               value={text}
               placeholder='投稿を入力してください'
               size='md'
+              mt={4}
             />
             <Button mt={4} mb={2} colorScheme='teal' variant='solid'
               isLoading={loadingPost} type="submit">投稿</Button>
@@ -102,7 +103,7 @@ export const Home = () => {
               <Image
                 boxSize='100px'
                 objectFit='cover'
-                src="https://localhost:5000/public/test.jpg"
+                src="http://localhost:5000/public/test.jpg"
               >
               </Image>
               <Button colorScheme='red' variant='solid' size={'sm'} mt={2} onClick={handleClick}
