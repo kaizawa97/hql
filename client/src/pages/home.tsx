@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Flex, Box, Container, Heading, Text, HStack, VStack, Grid, Avatar, Textarea, Button, Input
+  Box, Container, Heading, Text, HStack, VStack, Grid, Avatar, Textarea, Button, 
 } from "@chakra-ui/react";
 
 import { Header } from '../components/header';
@@ -32,7 +32,7 @@ export const Home = () => {
   return (
     <div>
       <Header authState={auth} />
-      <Box pt={8} px={4} display={{ md: 'flex' }} justifyContent={'space-between'} alignItems={'start'} maxW={'7xl'} margin={'auto'} >
+      <Box pt={8} px={4} display={{ md: 'flex' }} justifyContent={'space-between'} alignItems={'start'} maxW={'7xl'} margin={'auto'}  >
         <VStack>
           <Box w='220px' height={'220px'} bg='blue.500' rounded={'md'} >
             <Heading as='h3' size='lg' color='white' textAlign='center'>

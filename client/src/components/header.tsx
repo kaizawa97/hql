@@ -2,9 +2,11 @@ import React from "react";
 import { Link } from 'react-router-dom';
 import {
   Flex, Box, Button, ButtonGroup, Spacer, Container, HStack, Input, InputGroup, InputLeftElement,
-  Menu, MenuButton, Avatar, MenuList, MenuItem
+  Menu, MenuButton, Avatar, MenuList, MenuItem, Icon
 } from "@chakra-ui/react";
-import { InfoIcon, Search2Icon } from '@chakra-ui/icons';
+import { Search2Icon, ChatIcon } from '@chakra-ui/icons';
+import { AiOutlineHome } from 'react-icons/ai';
+import { GrNotification } from 'react-icons/gr';
 
 type Props = {
   authState?: boolean
@@ -21,8 +23,8 @@ export const Header = ({ authState = false }: Props) => {
           align="center"
           shadow="sm"
           py={3}
-          >
-          <Container as={Flex} maxW={'7xl'} align={'center'}>
+        >
+          <Container as={Flex} maxW={'7xl'} alignItems={'center'} justifyContent={'space-evenly'} width={'100%'}>
             <HStack>
               <Box>
                 <Button as={Link} to="/">
@@ -38,13 +40,15 @@ export const Header = ({ authState = false }: Props) => {
             <Spacer />
             <HStack spacing={6}>
               <ButtonGroup spacing={4}>
-                <Button as={Link} to={"/home"} aria-label='Home Button' leftIcon={<InfoIcon />} >
-                  Home
-                </Button>
-                <Button as={Link} to={"/chat"} aria-label='Home Button' leftIcon={<InfoIcon />} >
+                <Box>
+                  <Button as={Link} to={"/home"} aria-label='Home Button' leftIcon={<Icon as={AiOutlineHome}/>} >
+                    Home
+                  </Button>
+                </Box>
+                <Button as={Link} to={"/chat"} aria-label='Home Button' leftIcon={<ChatIcon />} >
                   Chat
                 </Button>
-                <Button as={Link} to={"/notification"} aria-label='Home Button' leftIcon={<InfoIcon />} >
+                <Button as={Link} to={"/notification"} aria-label='Home Button' leftIcon={<Icon as={GrNotification}/>}>
                   Notification
                 </Button>
               </ButtonGroup>

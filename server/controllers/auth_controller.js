@@ -50,13 +50,14 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((user, done) => {
-  Users.findById(id)
+  Users.findById(user.id)
     .then(user => {
       done(null, user);
     })
     .catch(err => {
       done(err, null);
     });
+    console.log(user.id);
 });
 
 exports.getAllUsers = (req, res) => {
