@@ -16,53 +16,64 @@ export type Post = {
 }
 
 export const usePostsData = () => {
-  const [loading, setLoading] = useState(false);
+  const [loadingGet, setLoadingGet] = useState(false);
+  const [loadingPost, setLoadingPost] = useState(false);
   const [loadingError, setLoadingError] = useState('');
   const [posts, setPosts] = useState<Post[]>([]);
   const [text, setTexts] = useState('');
 
   const serverDataGet = () => {
-    setLoading(true);
+    setLoadingGet(true);
     axios.get('http://localhost:5000/api/v1/posts', {
       withCredentials: true,
     }).then(res => {
       if (res.status === 200) {
         setPosts(res.data);
-        setLoading(false);
+        setLoadingGet(false);
       }
       else {
         setLoadingError(res.data.message);
-        setLoading(false);
+        setLoadingGet(false);
       }
     }).catch(err => {
       setLoadingError('Please contact the administrator');
-      setLoading(false);
+      setLoadingGet(false);
     });
   }
 
-  const serverDataPost = () => {
-    setLoading(true);
-    axios.post('http://localhost:5000/api/v1/posts', {
+  const serverDataPost = (Text:string) => {
+    setLoadingPost(true);
+    axios.post('http://localhost:5000/api/v1/posts', 
+    {
+      user_id: "1",
+      title: "This is test",
+      text: Text,
+      image: "https://localhost:5000/public/test.jpg",
+      movie: "https://localhost:5000/public/abc.mp4"
+    },
+    {
       withCredentials: true,
     }).then(res => {
       if (res.status === 200) {
         setTexts(res.data);
-        setLoading(false);
+        setLoadingPost(false);
       }
       else {
         setLoadingError(res.data.message);
-        setLoading(false);
+        setLoadingPost(false);
       }
     }).catch(err => {
       setLoadingError('Please contact the administrator');
-      setLoading(false);
+      setLoadingPost(false);
     });
   }
 
   return {
-    loading,
+    loadingGet,
+    loadingPost,
     loadingError,
     posts,
-    serverDataGet
+    serverDataGet,
+    serverDataPost
   };
 }

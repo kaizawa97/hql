@@ -74,70 +74,66 @@ export const Signin = () => {
             bg={useColorModeValue('white', 'gray.700')}
             boxShadow={'lg'}
             p={8}>
-            <Stack spacing={4}>
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <Stack spacing={4}>
-                  <FormControl id="email" isInvalid={errors.email ? true : false}>
-                    <FormLabel htmlFor="email">Email address*</FormLabel>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="Enter your email"
-                      {...register("email", {
-                        required: 'Email is required',
-                        pattern: {
-                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                          message: "Invalid email address",
-                        },
-                      })}
-                    />
-                    <FormErrorMessage>
-                      {errors.email && errors.email.message}
-                    </FormErrorMessage>
-                  </FormControl>
-                  <FormControl id="password" isInvalid={errors.password ? true : false}>
-                    <FormLabel htmlFor="password">Password*</FormLabel>
-                    <Input
-                      id="password"
-                      type="password"
-                      placeholder="Enter your Password"
-                      {...register('password', {
-                        required: 'Password is required',
-                        minLength: { value: 8, message: 'Minimum length should be 8' },
-                      })}
-                    />
-                    <FormErrorMessage>
-                      {errors.password && errors.password.message}
-                    </FormErrorMessage>
-                  </FormControl>
-                  <Stack spacing={10}>
-                    <Stack
-                      direction={{ base: 'column', sm: 'row' }}
-                      align={'start'}
-                      justify={'space-between'}>
-                      <Checkbox>Remember me</Checkbox>
-                      <Link color={'blue.400'} as={NavLink} to="/forgotpassword"> Forgot password?</Link>
-                    </Stack>
-                    {signinError ?
-                      <Alert status='error'>
-                        <AlertIcon />
-                        {signinError}
-                      </Alert>
-                      : null}
-                    <Button
-                      bg={'blue.400'}
-                      color={'white'}
-                      _hover={{
-                        bg: 'blue.500',
-                      }}
-                      isLoading={loading}
-                      type="submit"
-                    >
-                      Sign in
-                    </Button>
-                  </Stack>
+            <Stack spacing={4} as='form' onSubmit={handleSubmit(onSubmit)}>
+              <FormControl id="email" isInvalid={errors.email ? true : false}>
+                <FormLabel htmlFor="email">Email address*</FormLabel>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  {...register("email", {
+                    required: 'Email is required',
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                      message: "Invalid email address",
+                    },
+                  })}
+                />
+                <FormErrorMessage>
+                  {errors.email && errors.email.message}
+                </FormErrorMessage>
+              </FormControl>
+              <FormControl id="password" isInvalid={errors.password ? true : false}>
+                <FormLabel htmlFor="password">Password*</FormLabel>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="Enter your Password"
+                  {...register('password', {
+                    required: 'Password is required',
+                    minLength: { value: 8, message: 'Minimum length should be 8' },
+                  })}
+                />
+                <FormErrorMessage>
+                  {errors.password && errors.password.message}
+                </FormErrorMessage>
+              </FormControl>
+              <Stack spacing={10}>
+                <Stack
+                  direction={{ base: 'column', sm: 'row' }}
+                  align={'start'}
+                  justify={'space-between'}>
+                  <Checkbox>Remember me</Checkbox>
+                  <Link color={'blue.400'} as={NavLink} to="/forgotpassword"> Forgot password?</Link>
                 </Stack>
-              </form>
+                {signinError ?
+                  <Alert status='error'>
+                    <AlertIcon />
+                    {signinError}
+                  </Alert>
+                  : null}
+                <Button
+                  bg={'blue.400'}
+                  color={'white'}
+                  _hover={{
+                    bg: 'blue.500',
+                  }}
+                  isLoading={loading}
+                  type="submit"
+                >
+                  Sign in
+                </Button>
+              </Stack>
             </Stack>
           </Box>
         </Stack>

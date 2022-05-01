@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Flex, Box, Container, Heading, Text, HStack, VStack, Grid, Avatar, Textarea, Button
+  Flex, Box, Container, Heading, Text, HStack, VStack, Grid, Avatar, Textarea, Button, Input
 } from "@chakra-ui/react";
 
 import { Header } from '../components/header';
@@ -11,18 +11,22 @@ import { User, Post, usePostsData } from '../hooks/usePostsget';
 
 export const Home = () => {
   const auth = true;
-  const { loading, loadingError, posts, serverDataGet, } = usePostsData();
+  const { loadingGet, loadingPost, loadingError, posts, serverDataGet, serverDataPost } = usePostsData();
   const [text, setText] = useState('');
 
   useEffect(() => {
     serverDataGet();
   }, []);
 
-  const textbox = () => {
-    const handleInputChange = (e: React.KeyboardEvent<HTMLInputElement>) => {
-      const inputText = e.currentTarget.value;
-      setText(inputText);
-    }
+  const handleInputChange = (e: React.FormEvent<HTMLTextAreaElement>) => {
+    const inputText = e.currentTarget.value;
+    setText(inputText);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    serverDataPost(text);
+    setText('');
   }
 
   return (
@@ -32,26 +36,29 @@ export const Home = () => {
         <VStack>
           <Box w='220px' height={'220px'} bg='blue.500' rounded={'md'} >
             <Heading as='h3' size='lg' color='white' textAlign='center'>
-              Hello
+              Short Profile
             </Heading>
           </Box>
-          <Box w='220px' height={'220px'} bg='blue.500' >
+          <Box w='220px' height={'220px'} bg='blue.500' rounded={'md'} >
             <Heading as='h3' size='lg' color='white' textAlign='center'>
-              Hello
+              Tips
             </Heading>
           </Box>
         </VStack>
         <Box as={Container} flexDir={'column'} align={'center'} maxW={'xl'} rounded={'md'}>
-          <Box bg={'white'} shadow='md' rounded={'md'} mb={4}>
+          <Box as='form' bg={'white'} shadow='md' rounded={'md'} mb={8} onSubmit={handleSubmit}>
             <Textarea
+              id="textarea"
+              onChange={handleInputChange}
               value={text}
               placeholder='投稿を入力してください'
               size='md'
             />
-            <Button colorScheme='teal' variant='solid'>投稿</Button>
+            <Button mt={4} mb={2} colorScheme='teal' variant='solid'
+              isLoading={loadingPost} type="submit">投稿</Button>
           </Box>
           {posts.map(post => (
-            <Box bg='white' shadow='md' p={4} mb={4} rounded='md'>
+            <Box bg='white' shadow='md' p={4} mb={4} rounded='md' key={post.id} >
               <HStack mb={2}>
                 <Avatar
                   name="John Doe"
@@ -73,9 +80,9 @@ export const Home = () => {
           ))}
         </Box>
         <VStack>
-          <Box w='220px' height={'220px'} bg='blue.500' >
+          <Box w='220px' height={'220px'} bg='blue.500' rounded={'md'} >
             <Heading as='h3' size='lg' color='white' textAlign='center'>
-              Hello
+              News??
             </Heading>
           </Box>
         </VStack>
