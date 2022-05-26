@@ -47,7 +47,7 @@ export const Home = () => {
       <Header authState={auth} />
       <Box pt={8} px={4} display={{ md: 'flex' }} justifyContent={'space-between'} alignItems={'start'} maxW={'7xl'} margin={'auto'} bg={useColorModeValue('gray.50', 'gray.800')} >
         <VStack>
-          <Box w='220px' top={'80px'} height={'220px'} bg='blue.500' rounded={'lg'} textAlign={'center'} flexDir={'column'}
+          <Box w='220px' top={'80px'} height={'220px'} bg='blue.100' rounded={'lg'} textAlign={'center'} flexDir={'column'}
             borderBottom={0} mb={4} >
             <Avatar
               name="John Doe"
@@ -58,10 +58,10 @@ export const Home = () => {
               mt={2}
               mb={'10px'}
             />
-            <Heading textAlign='center' color={'white'} size='md'>
+            <Heading textAlign='center' color={'black'} size='md'>
               John Doe
             </Heading>
-            <Heading textAlign='center' color={'white'} size='md'>
+            <Heading textAlign='center' color={'black'} size='md'>
               Linkedin User
             </Heading>
           </Box>
@@ -117,11 +117,12 @@ export const Home = () => {
         <VStack>
           <Box w='220px' height={'220px'} bg='blue.500' rounded={'md'} >
             <Heading as='h3' size='lg' color='white' textAlign='center'>
-              News??
+              Category For Example:
             </Heading>
           </Box>
         </VStack>
       </Box>
+      <Footer />
     </div >
   );
 }

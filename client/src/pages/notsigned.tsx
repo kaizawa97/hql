@@ -16,6 +16,7 @@ export const NotSigned = () => {
       <Box p={8} display={{ md: 'flex' }}>
         Test Site
       </Box>
+      <Footer />
     </div>
   );
 }

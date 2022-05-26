@@ -14,10 +14,9 @@ export const Footer = () => {
         justify={{ base: 'center', md: 'space-between' }}
         align={{ base: 'center', md: 'center' }}>
         <Stack direction={'row'} spacing={6}>
-          <Button as={Link} to="/">Home</Button>
-          <Button as={Link} to="/">About</Button>
-          <Button as={Link} to="/">C</Button>
-          <Button as={Link} to="/">D</Button>
+          <Button as={Link} to="/home">Home</Button>
+          <Button as={Link} to="/chat">Chat</Button>
+          <Button as={Link} to="/profile">Profile</Button>
         </Stack>
         <Text>© 2022 kaizawa97. All rights reserved</Text>
       </Container>
